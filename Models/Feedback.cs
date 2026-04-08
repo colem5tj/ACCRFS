@@ -15,5 +15,7 @@ public class Feedback
     public Transaction? Transaction { get; set; }
     public User? GivenByUser { get; set; }
 
-    public int Rating { get; set; }
+    public int? Rating { get; set; }
+
+    public string? Comments { get; set; }
 }

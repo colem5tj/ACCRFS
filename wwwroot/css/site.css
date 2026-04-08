@@ -1,66 +1,359 @@
-html {
-    font-size: 14px;
+/* ============================================
+   ACC (Alachua Community Collective) Brand Theme
+   Overrides Bootstrap defaults — safe to add,
+   ============================================ */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap');
+
+/* --- CSS Custom Properties (Brand Colors) --- */
+:root {
+    --acc-dark: #2A272A; /* charcoal — navbar, footer, dark text */
+    --acc-teal: #237371; /* primary — buttons, links, active states */
+    --acc-green: #2FB774; /* accent — success badges, CTAs */
+    --acc-white: #FEFFFF; /* backgrounds, cards */
+    --acc-sage: #94B7A2; /* muted — borders, secondary text */
+    /* Convenience aliases for Bootstrap overrides */
+    --bs-primary: #237371;
+    --bs-primary-rgb: 35, 115, 113;
+    --bs-success: #2FB774;
+    --bs-success-rgb: 47, 183, 116;
+    --bs-body-bg: #FEFFFF;
+    --bs-body-color: #2A272A;
+    --bs-link-color: #237371;
+    --bs-link-hover-color: #1a5655;
 }
 
+/* --- Typography --- */
 body {
-    background: #f7f7f4;
-    color: #161616;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', 'Avenir', sans-serif;
+    background-color: var(--acc-white);
+    color: var(--acc-dark);
 }
 
-.card-soft {
-    background: #ffffff;
-    border: 1px solid #e6e6e6;
-    border-radius: 18px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.04);
-}
-
-.metric-number {
-    font-size: 2.6rem;
-    font-weight: 800;
-    line-height: 1;
-}
-
-.sidebar-card {
-    min-height: 100%;
-}
-
-.status-pill {
-    border-radius: 999px;
-    padding: .35rem .75rem;
-    font-size: .8rem;
+h1, h2, h3, .display-1, .display-2, .display-3,
+.display-4, .display-5, .display-6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 600;
-    display: inline-block;
+    color: var(--acc-dark);
+    letter-spacing: 0.01em;
 }
 
-.status-open {
-    background: #eef4ff;
-    color: #2458b8;
+h4, h5, h6 {
+    font-family: 'Nunito', 'Avenir', sans-serif;
+    font-weight: 700;
+    color: var(--acc-dark);
 }
 
-.status-matched {
-    background: #eef8f0;
-    color: #1d7d3d;
+/* --- Navbar --- */
+.navbar {
+    background-color: var(--acc-dark) !important;
+    border-bottom: 3px solid var(--acc-teal);
 }
 
-.status-pending {
-    background: #fff8e8;
-    color: #916400;
+.navbar-brand {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--acc-white) !important;
+    letter-spacing: 0.05em;
 }
 
-.status-completed {
-    background: #f1f1f1;
-    color: #444;
+.navbar-nav .nav-link {
+    color: var(--acc-sage) !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
 }
 
-.hero-panel {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: var(--acc-green) !important;
+    }
+
+.navbar-toggler {
+    border-color: var(--acc-sage);
 }
 
-.wireframe-panel {
-    max-width: 480px;
-    width: 100%;
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    background-color: var(--acc-teal);
+    border-color: var(--acc-teal);
+    color: var(--acc-white);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: #1a5655;
+        border-color: #1a5655;
+        color: var(--acc-white);
+    }
+
+.btn-success {
+    background-color: var(--acc-green);
+    border-color: var(--acc-green);
+    color: var(--acc-dark);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+}
+
+    .btn-success:hover,
+    .btn-success:focus {
+        background-color: #24a063;
+        border-color: #24a063;
+        color: var(--acc-dark);
+    }
+
+.btn-outline-primary {
+    color: var(--acc-teal);
+    border-color: var(--acc-teal);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--acc-teal);
+        border-color: var(--acc-teal);
+        color: var(--acc-white);
+    }
+
+.btn-secondary {
+    background-color: var(--acc-sage);
+    border-color: var(--acc-sage);
+    color: var(--acc-dark);
+    font-weight: 700;
+}
+
+/* --- Cards --- */
+.card {
+    border: 1px solid #e0e8e4;
+    border-radius: 10px;
+    background-color: var(--acc-white);
+    box-shadow: 0 2px 8px rgba(42, 39, 42, 0.07);
+    transition: box-shadow 0.2s ease;
+}
+
+    .card:hover {
+        box-shadow: 0 4px 16px rgba(35, 115, 113, 0.15);
+    }
+
+.card-header {
+    background-color: var(--acc-teal);
+    color: var(--acc-white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--acc-dark);
+}
+
+/* --- Links --- */
+a {
+    color: var(--acc-teal);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+    a:hover {
+        color: var(--acc-green);
+        text-decoration: underline;
+    }
+
+/* --- Badges --- */
+.badge.bg-primary {
+    background-color: var(--acc-teal) !important;
+}
+
+.badge.bg-success {
+    background-color: var(--acc-green) !important;
+    color: var(--acc-dark) !important;
+}
+
+.badge.bg-secondary {
+    background-color: var(--acc-sage) !important;
+    color: var(--acc-dark) !important;
+}
+
+/* --- Form Controls --- */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--acc-teal);
+    box-shadow: 0 0 0 0.2rem rgba(35, 115, 113, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--acc-dark);
+    font-family: 'Nunito', sans-serif;
+}
+
+/* --- Alerts --- */
+.alert-success {
+    background-color: rgba(47, 183, 116, 0.15);
+    border-color: var(--acc-green);
+    color: #1a6b44;
+}
+
+.alert-info {
+    background-color: rgba(35, 115, 113, 0.12);
+    border-color: var(--acc-teal);
+    color: var(--acc-teal);
+}
+
+/* --- Tables --- */
+.table thead th {
+    background-color: var(--acc-dark);
+    color: var(--acc-white);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    border-color: var(--acc-dark);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(148, 183, 162, 0.1);
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(35, 115, 113, 0.08);
+}
+
+/* --- Page Header Helper --- */
+.acc-page-header {
+    border-bottom: 2px solid var(--acc-teal);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+    .acc-page-header h1,
+    .acc-page-header h2 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        color: var(--acc-dark);
+    }
+
+/* --- Footer --- */
+footer {
+    background-color: var(--acc-dark) !important;
+    color: var(--acc-sage);
+    border-top: 3px solid var(--acc-teal);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+}
+
+    footer a {
+        color: var(--acc-sage);
+    }
+
+        footer a:hover {
+            color: var(--acc-green);
+        }
+
+/* --- Pagination --- */
+.page-link {
+    color: var(--acc-teal);
+    border-color: #dee2e6;
+}
+
+    .page-link:hover {
+        color: var(--acc-white);
+        background-color: var(--acc-teal);
+        border-color: var(--acc-teal);
+    }
+
+.page-item.active .page-link {
+    background-color: var(--acc-teal);
+    border-color: var(--acc-teal);
+    color: var(--acc-white);
+}
+
+/* --- Misc Utility --- */
+.text-primary {
+    color: var(--acc-teal) !important;
+}
+
+.text-success {
+    color: var(--acc-green) !important;
+}
+
+.text-muted {
+    color: var(--acc-sage) !important;
+}
+
+.bg-primary {
+    background-color: var(--acc-teal) !important;
+}
+
+.bg-success {
+    background-color: var(--acc-green) !important;
+}
+
+.bg-dark {
+    background-color: var(--acc-dark) !important;
+}
+/* --- Stronger borders / outlines --- */
+.card {
+    border: 1.5px solid var(--acc-sage) !important;
+}
+
+.table {
+    border: 1.5px solid #c5d4cc;
+}
+
+    .table td, .table th {
+        border-color: #c5d4cc !important;
+    }
+
+.form-control, .form-select {
+    border: 1.5px solid var(--acc-sage) !important;
+}
+
+.list-group-item {
+    border-color: var(--acc-sage) !important;
+}
+
+.nav-item {
+    border-bottom: 1px solid #dce8e2;
+}
+
+    .nav-item:last-child {
+        border-bottom: none;
+    }
+/* --- card-soft (Dashboard custom class) --- */
+.card-soft {
+    background-color: var(--acc-white);
+    border: 1.5px solid var(--acc-sage) !important;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(42, 39, 42, 0.07);
+    transition: box-shadow 0.2s ease;
+}
+
+    .card-soft:hover {
+        box-shadow: 0 4px 16px rgba(35, 115, 113, 0.15);
+    }
+
+.sidebar-card .list-group-item {
+    border-color: #dce8e2 !important;
+}
+/* --- Ledger page muted text fix --- */
+.fst-italic {
+    color: #6c757d !important;
 }

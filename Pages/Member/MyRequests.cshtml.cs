@@ -15,9 +15,9 @@ namespace ACC_Demo.Pages.Member
             _db = db;
         }
 
-        public List<Request> Requests { get; set; }
+        public List<Request> Requests { get; set; } = new();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -26,10 +26,11 @@ namespace ACC_Demo.Pages.Member
                 return;
             }
 
-            Requests = _db.Requests
+            Requests = await _db.Requests
+                .Include(r => r.Transactions)
                 .Where(r => r.CreatedByUserId == userId.Value)
                 .OrderByDescending(r => r.CreatedAt)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

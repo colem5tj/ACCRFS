@@ -32,7 +32,7 @@ namespace ACC_Demo.Pages.Member
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int transactionId, int rating)
+        public async Task<IActionResult> OnPostAsync(int transactionId, int rating, string? comments)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -55,12 +55,13 @@ namespace ACC_Demo.Pages.Member
             if (provider != null)
                 provider.CurrentBalance += transaction.HoursTransferred;
 
-            // Save feedback rating
+            // Save feedback
             var feedback = new Feedback
             {
                 TransactionId = transaction.TransactionId,
                 GivenByUserId = userId.Value,
-                Rating = rating
+                Rating = rating,
+                Comments = comments
             };
             _db.FeedbackItems.Add(feedback);
 

@@ -4,6 +4,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>ACC_Demo</RootNamespace>
+		<AssemblyName>ACC_Demo</AssemblyName>
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Remove="Migrations\**" />
@@ -19,19 +20,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	
+
 	<ItemGroup>
-		<EmbeddedResource Update="Resources\en\SharedResources.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\es\SharedResources.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\SharedResources.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\SharedResources.resx" />
+		<EmbeddedResource Update="Resources\SharedResources.en.resx" />
+		<EmbeddedResource Update="Resources\SharedResources.es.resx" />
 	</ItemGroup>
 </Project>

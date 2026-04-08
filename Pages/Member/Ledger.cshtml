@@ -99,7 +99,7 @@
                                 <span class="ledger-desc">@(tx.Request?.Title ?? "Transaction #" + tx.TransactionId)</span>
                             </div>
                         </td>
-                        <td class="text-end fw-semibold @(tx.ProviderId == Model.CurrentUserId ? "text-success" : "")">
+                        <td class="text-end fw-semibold>
                             @(tx.ProviderId == Model.CurrentUserId ? "+" : "-")@tx.HoursTransferred.ToString("F1")
                         </td>
                         <td class="text-end">

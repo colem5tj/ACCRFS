@@ -4113,7 +4113,7 @@
     "version": "1.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
-      "projectName": "ACC Demo",
+      "projectName": "ACC_Demo",
       "projectPath": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
       "packagesPath": "C:\\Users\\tjcol\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\obj\\",

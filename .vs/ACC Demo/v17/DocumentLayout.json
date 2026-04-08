@@ -3,164 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\acc demo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:acc demo.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\confirmhours.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\confirmhours.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\confirmhours.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\confirmhours.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\models\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:models\\feedback.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\approvehours.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\approvehours.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\approvehours.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\approvehours.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\manageoffers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\manageoffers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\manageoffers.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\manageoffers.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\offerhelp.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\offerhelp.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\offerhelp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\offerhelp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\models\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:models\\request.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\ledger.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\ledger.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\ledger.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\ledger.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\myrequests.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\myrequests.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\createrequest.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\createrequest.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\browserequests.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\browserequests.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\resources\\es\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:resources\\es\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\resources\\en\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:resources\\en\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\resources\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:resources\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\resources\\sharedresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:resources\\sharedresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\setculture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\setculture.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\account\\logout.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\account\\logout.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\account\\logout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\account\\logout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\resources\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:resources\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\setculture.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\setculture.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\createrequest.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\createrequest.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\profile.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\browserequests.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\browserequests.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\dashboard.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\dashboard.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|c:\\users\\tjcol\\documents\\cis484\\sprint1\\acc demo\\pages\\member\\myrequests.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CD786864-60B9-4A89-B4BA-A3BE57F6CAB8}|ACC Demo.csproj|solutionrelative:pages\\member\\myrequests.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.en.resx||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Resources\\SharedResources.en.resx||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\en\\SharedResources.en.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Resources\\en\\SharedResources.en.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -170,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -178,482 +38,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ConfirmHours.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ConfirmHours.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\ConfirmHours.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ConfirmHours.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\ConfirmHours.cshtml.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:57:39.263Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Feedback.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Feedback.cs",
-              "RelativeDocumentMoniker": "Models\\Feedback.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Feedback.cs",
-              "RelativeToolTip": "Models\\Feedback.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBEAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:52:07.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApproveHours.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ApproveHours.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\ApproveHours.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ApproveHours.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\ApproveHours.cshtml.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAqwD4AAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:51:39.04Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ApproveHours.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ApproveHours.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\ApproveHours.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ApproveHours.cshtml",
-              "RelativeToolTip": "Pages\\Member\\ApproveHours.cshtml",
-              "ViewState": "AgIAACAAAAAAAAAAAAAqwC0AAABPAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Admin\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Admin\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Admin\\Dashboard.cshtml",
+              "RelativeToolTip": "Pages\\Admin\\Dashboard.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T14:51:23.231Z"
+              "WhenOpened": "2026-04-08T02:53:25.949Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ACC Demo.csproj",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
-              "RelativeDocumentMoniker": "ACC Demo.csproj",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
-              "RelativeToolTip": "ACC Demo.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-03T17:15:04.211Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ConfirmHours.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ConfirmHours.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\ConfirmHours.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ConfirmHours.cshtml",
-              "RelativeToolTip": "Pages\\Member\\ConfirmHours.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T14:57:36.018Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ManageOffers.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ManageOffers.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\ManageOffers.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ManageOffers.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\ManageOffers.cshtml.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAqwEAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:50:41.624Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ManageOffers.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ManageOffers.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\ManageOffers.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\ManageOffers.cshtml",
-              "RelativeToolTip": "Pages\\Member\\ManageOffers.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAADQAAABhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T14:50:24.725Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Register.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Account\\Register.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Register.cshtml",
-              "RelativeToolTip": "Pages\\Account\\Register.cshtml",
-              "ViewState": "AgIAADkAAAAAAAAAAAAqwE8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T14:43:27.639Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Register.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Account\\Register.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeToolTip": "Pages\\Account\\Register.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:30:27.767Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAIwBYAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-06T18:36:44.386Z"
+              "WhenOpened": "2026-04-08T02:52:00.572Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "OfferHelp.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\OfferHelp.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\OfferHelp.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\OfferHelp.cshtml",
-              "RelativeToolTip": "Pages\\Member\\OfferHelp.cshtml",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAqwIAAAAAGAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Member\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml",
+              "RelativeToolTip": "Pages\\Member\\Dashboard.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T19:10:30.445Z"
+              "WhenOpened": "2026-04-08T02:46:28.512Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "OfferHelp.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\OfferHelp.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\OfferHelp.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\OfferHelp.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\OfferHelp.cshtml.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T19:10:44.976Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Ledger.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Ledger.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\Ledger.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Ledger.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\Ledger.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:08:22.304Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Login.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Login.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Account\\Login.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Login.cshtml.cs",
-              "RelativeToolTip": "Pages\\Account\\Login.cshtml.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAkwBwAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T04:30:15.451Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Ledger.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Ledger.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\Ledger.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Ledger.cshtml",
-              "RelativeToolTip": "Pages\\Member\\Ledger.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJ0AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-07T14:06:52.268Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "SharedResources.resx",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\en\\SharedResources.resx",
-              "RelativeDocumentMoniker": "Resources\\en\\SharedResources.resx",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\en\\SharedResources.resx",
-              "RelativeToolTip": "Resources\\en\\SharedResources.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-04-06T18:45:35.335Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAALQAAAAAAAAAAAAqwMoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:11:22.179Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Transaction.cs",
-              "RelativeDocumentMoniker": "Models\\Transaction.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Transaction.cs",
-              "RelativeToolTip": "Models\\Transaction.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAwwCAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:08:38.517Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Request.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Request.cs",
-              "RelativeDocumentMoniker": "Models\\Request.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Models\\Request.cs",
-              "RelativeToolTip": "Models\\Request.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAA9wCEAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T14:25:45.853Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "BrowseRequests.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\BrowseRequests.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\BrowseRequests.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\BrowseRequests.cshtml",
-              "RelativeToolTip": "Pages\\Member\\BrowseRequests.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIMAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-31T18:20:04.086Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CreateRequest.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\CreateRequest.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\CreateRequest.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\CreateRequest.cshtml",
-              "RelativeToolTip": "Pages\\Member\\CreateRequest.cshtml",
-              "ViewState": "AgIAADQAAAAAAAAAAAAqwJIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-31T18:07:31.831Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "MyRequests.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\MyRequests.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\MyRequests.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\MyRequests.cshtml",
-              "RelativeToolTip": "Pages\\Member\\MyRequests.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T04:26:40.308Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 3,
               "Title": "SharedResources.resx",
               "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.resx",
               "RelativeDocumentMoniker": "Resources\\SharedResources.resx",
               "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.resx",
               "RelativeToolTip": "Resources\\SharedResources.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-04-06T18:50:35.954Z"
+              "WhenOpened": "2026-04-08T02:43:52.12Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "SharedResources.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.cs",
-              "RelativeDocumentMoniker": "Resources\\SharedResources.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.cs",
-              "RelativeToolTip": "Resources\\SharedResources.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T20:28:00.832Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "SharedResources.resx",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\es\\SharedResources.resx",
-              "RelativeDocumentMoniker": "Resources\\es\\SharedResources.resx",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\es\\SharedResources.resx",
-              "RelativeToolTip": "Resources\\es\\SharedResources.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-04-06T18:46:14.166Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "SetCulture.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\SetCulture.cs",
-              "RelativeDocumentMoniker": "Pages\\SetCulture.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\SetCulture.cs",
-              "RelativeToolTip": "Pages\\SetCulture.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T17:14:13.03Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "_ViewImports.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\_ViewImports.cshtml",
-              "RelativeDocumentMoniker": "Pages\\_ViewImports.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\_ViewImports.cshtml",
-              "RelativeToolTip": "Pages\\_ViewImports.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T20:28:10.552Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "Error.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Error.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Error.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Error.cshtml",
-              "RelativeToolTip": "Pages\\Error.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-06T18:49:15.764Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "Dashboard.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\Dashboard.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml",
-              "RelativeToolTip": "Pages\\Member\\Dashboard.cshtml",
-              "ViewState": "AgIAADgAAAAAAAAAAAAqwE4AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T17:44:17.992Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 4,
               "Title": "SharedResources.en.resx",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.en.resx",
-              "RelativeDocumentMoniker": "Resources\\SharedResources.en.resx",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\SharedResources.en.resx",
-              "RelativeToolTip": "Resources\\SharedResources.en.resx",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAAAL8AAAAHAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\en\\SharedResources.en.resx",
+              "RelativeDocumentMoniker": "Resources\\en\\SharedResources.en.resx",
+              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Resources\\en\\SharedResources.en.resx",
+              "RelativeToolTip": "Resources\\en\\SharedResources.en.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-04-03T20:17:52.051Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "Logout.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Logout.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Account\\Logout.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Logout.cshtml.cs",
-              "RelativeToolTip": "Pages\\Account\\Logout.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T19:51:45.174Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Logout.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Logout.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Account\\Logout.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Account\\Logout.cshtml",
-              "RelativeToolTip": "Pages\\Account\\Logout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T19:50:57.924Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Profile.cshtml",
-              "RelativeDocumentMoniker": "Pages\\Member\\Profile.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Profile.cshtml",
-              "RelativeToolTip": "Pages\\Member\\Profile.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-02T04:42:32.221Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "SetCulture.cshtml",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\SetCulture.cshtml",
-              "RelativeDocumentMoniker": "Pages\\SetCulture.cshtml",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\SetCulture.cshtml",
-              "RelativeToolTip": "Pages\\SetCulture.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T17:14:50.26Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "Profile.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Profile.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\Profile.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Profile.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\Profile.cshtml.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAIA8wEIAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T04:42:20.872Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "CreateRequest.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\CreateRequest.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\CreateRequest.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\CreateRequest.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\CreateRequest.cshtml.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAAB0AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T18:13:42.697Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "BrowseRequests.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\BrowseRequests.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\BrowseRequests.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\BrowseRequests.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\BrowseRequests.cshtml.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAswCoAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T18:17:40.17Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "Dashboard.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\Dashboard.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\Dashboard.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\Dashboard.cshtml.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T05:06:52.247Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "MyRequests.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\MyRequests.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Member\\MyRequests.cshtml.cs",
-              "ToolTip": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\Pages\\Member\\MyRequests.cshtml.cs",
-              "RelativeToolTip": "Pages\\Member\\MyRequests.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T04:22:50.575Z"
+              "WhenOpened": "2026-04-08T02:08:30.855Z"
             }
           ]
         }
