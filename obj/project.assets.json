@@ -4106,23 +4106,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tjcol\\.nuget\\packages\\": {},
+    "C:\\Users\\Timothy\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
+      "projectUniqueName": "C:\\Users\\Timothy\\Desktop\\CIS484\\Sprint2\\ACCRFS\\ACC Demo.csproj",
       "projectName": "ACC_Demo",
-      "projectPath": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\ACC Demo.csproj",
-      "packagesPath": "C:\\Users\\tjcol\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tjcol\\Documents\\CIS484\\Sprint1\\ACC Demo\\obj\\",
+      "projectPath": "C:\\Users\\Timothy\\Desktop\\CIS484\\Sprint2\\ACCRFS\\ACC Demo.csproj",
+      "packagesPath": "C:\\Users\\Timothy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Timothy\\Desktop\\CIS484\\Sprint2\\ACCRFS\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tjcol\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Timothy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
