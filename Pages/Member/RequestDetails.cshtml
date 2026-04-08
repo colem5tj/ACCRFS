@@ -1,0 +1,46 @@
+﻿@page "{id:int}"
+@model ACC_Demo.Pages.Member.RequestDetailsModel
+@{
+    ViewData["Title"] = "Request Details";
+}
+
+<div class="card-soft p-4 mx-auto" style="max-width: 900px;">
+    <a asp-page="/Member/BrowseRequests" class="text-decoration-none">&larr; Back to Requests</a>
+
+    <div class="d-flex justify-content-between align-items-start mt-3 mb-4">
+        <div>
+            <div class="text-muted small">Request #@Model.RequestItem!.RequestId</div>
+            <h2 class="fw-bold">@Model.RequestItem.Title</h2>
+        </div>
+        <span class="status-pill status-open">@Model.RequestItem.Status</span>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="border rounded-4 p-3">
+                <div class="small text-uppercase text-muted mb-2">Detailed Description</div>
+                <div>@Model.RequestItem.Description</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="border rounded-4 p-3">
+                <div class="small text-uppercase text-muted mb-2">Hours Requested</div>
+                <div class="fw-semibold">@Model.RequestItem.HoursNeeded</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="border rounded-4 p-3">
+                <div class="small text-uppercase text-muted mb-2">Urgency</div>
+                <div class="fw-semibold">@Model.RequestItem.UrgencyLevel</div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post" class="d-flex justify-content-end gap-2 mt-4">
+        <input type="hidden" asp-for="RequestItem!.RequestId" />
+        <button type="submit" asp-page-handler="Decline" class="btn btn-outline-secondary">Decline Request</button>
+        <button type="submit" asp-page-handler="Accept" class="btn btn-dark">Accept Request</button>
+    </form>
+</div>

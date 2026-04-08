@@ -1,0 +1,106 @@
+﻿@page
+@model ACC_Demo.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="row g-4">
+
+    <!-- Sidebar -->
+    <div class="col-lg-3">
+        <div class="card-soft p-3">
+            <h5 class="fw-bold">Admin Panel</h5>
+
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Admin/Dashboard" class="list-group-item list-group-item-action active">
+                    Overview
+                </a>
+                <a class="list-group-item list-group-item-action">User Management</a>
+                <a class="list-group-item list-group-item-action">Reports</a>
+                <a class="list-group-item list-group-item-action">Moderation</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+
+        <!-- Metrics -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card-soft p-3">
+                    <div class="small text-muted">Active Users</div>
+                    <div class="metric-number">@Model.ActiveUsers</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-soft p-3">
+                    <div class="small text-muted">Open Requests</div>
+                    <div class="metric-number">@Model.OpenRequests</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-soft p-3">
+                    <div class="small text-muted">Pending Approvals</div>
+                    <div class="metric-number">@Model.PendingApprovals</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-soft p-3">
+                    <div class="small text-muted">Flagged Users</div>
+                    <div class="metric-number">@Model.FlaggedUsers</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="card-soft p-4 mb-4">
+            <h5 class="fw-bold mb-3">User Access Management</h5>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>@(user.IsActive ? "Active" : "Inactive")</td>
+                            <td>@user.RoleName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reports / Flags -->
+        <div class="card-soft p-4">
+            <h5 class="fw-bold mb-3">Recent Reports</h5>
+
+            @if (Model.RecentReports.Count == 0)
+            {
+                <p class="text-muted">No reports at this time.</p>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var report in Model.RecentReports)
+                    {
+                        <li>@report</li>
+                    }
+                </ul>
+            }
+        </div>
+
+    </div>
+</div>

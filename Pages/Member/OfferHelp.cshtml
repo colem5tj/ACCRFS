@@ -1,0 +1,129 @@
+﻿@page
+@model ACC_Demo.Pages.Member.OfferHelpModel
+@{
+    ViewData["Title"] = "Offer Help";
+}
+
+<div class="container mt-4" style="max-width: 700px;">
+
+    <div class="mb-4">
+        <a href="/Member/BrowseRequests" class="text-decoration-none text-muted">
+            ← Back to Requests
+        </a>
+    </div>
+
+    @if (Model.Request == null)
+    {
+        <div class="alert alert-danger">Request not found.</div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="badge bg-light text-dark border mb-2">Help Request</span>
+                        <h2 class="mb-1">@Model.Request.Title</h2>
+                        <p class="text-muted mb-0">
+                            Requested by: <strong>@(Model.Request.CreatedByUser?.FullName ?? "Community Member")</strong>
+                        </p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge bg-primary text-white fs-6 px-3 py-2">
+                            ● @Model.Request.Status
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <p class="text-uppercase text-muted fw-semibold small border-start border-3 ps-2 mb-3">Detailed Description</p>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="mb-0">@Model.Request.Description</p>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Request.Skill != null)
+        {
+            <div class="mb-4">
+                <p class="text-uppercase text-muted fw-semibold small border-start border-3 ps-2 mb-3">Required Expertise</p>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge border text-dark bg-white fs-6">@Model.Request.Skill.SkillName</span>
+                    </div>
+                </div>
+            </div>
+        }
+
+    <div class="mb-4">
+        <p class="text-uppercase text-muted fw-semibold small border-start border-3 ps-2 mb-3">Logistics &amp; Timeline</p>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <small class="text-uppercase text-muted fw-semibold d-block mb-1">
+                            <i class="bi bi-calendar me-1"></i> Proposed Schedule
+                        </small>
+                        <span class="fs-5">
+                            @(Model.Request.ScheduledDate.HasValue
+                                                        ? Model.Request.ScheduledDate.Value.ToString("MMM dd, yyyy")
+                                                        : "Flexible")
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <small class="text-uppercase text-muted fw-semibold d-block mb-1">
+                            <i class="bi bi-clock me-1"></i> Allocated Effort
+                        </small>
+                        <span class="fs-5">@Model.Request.HoursNeeded Hours Total</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <small class="text-uppercase text-muted fw-semibold d-block mb-1">
+                                <i class="bi bi-exclamation-circle me-1"></i> Priority
+                            </small>
+                            <span>@Model.Request.UrgencyLevel Priority</span>
+                        </div>
+                    </div>
+                </div>
+            @if (Model.Request.Organization != null)
+                {
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                <small class="text-uppercase text-muted fw-semibold d-block mb-1">
+                                    <i class="bi bi-building me-1"></i> Organization
+                                </small>
+                                <span>@Model.Request.Organization.Name</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 pt-3 border-top">
+            <a href="/Member/BrowseRequests" class="btn btn-outline-secondary btn-lg px-5">
+                <i class="bi bi-x-circle me-1"></i> Decline
+            </a>
+            <form method="post">
+                <input type="hidden" name="requestId" value="@Model.Request.RequestId" />
+                <button type="submit" class="btn btn-dark btn-lg px-5">
+                    <i class="bi bi-check-circle me-1"></i> Accept Request
+                </button>
+            </form>
+        </div>
+    }
+</div>

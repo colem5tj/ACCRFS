@@ -1,0 +1,87 @@
+﻿@using Microsoft.Extensions.Localization
+@using ACC_Demo
+@inject IStringLocalizer<SharedResources> Localizer
+@* Test: @Localizer["Nav_Logout"] *@
+<p>TEST: @Localizer["Nav_Logout"]</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TimeBank Connect</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-page="/Index">TimeBank Connect</a>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav align-items-center">
+
+                        <span class="navbar-text text-dark me-1">Switch Language</span>
+                        <li class="nav-item dropdown me-3">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button"
+                               data-bs-toggle="dropdown">
+                                🌐 @(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToUpper())
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="/SetCulture?culture=en&returnUrl=@Uri.EscapeDataString(Context.Request.Path)">
+                                        🇺🇸 English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="/SetCulture?culture=es&returnUrl=@Uri.EscapeDataString(Context.Request.Path)">
+                                        🇪🇸 Español
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        @if (Context.Session.GetString("UserRole") != null)
+                        {
+                            <li class="nav-item me-2">
+                                <span class="navbar-text text-dark fw-semibold">
+                                    👤 @Context.Session.GetString("UserName")
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Account/Logout">@Localizer["Nav_Logout"]</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Login">@Localizer["Nav_Login"]</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - TimeBank Connect
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

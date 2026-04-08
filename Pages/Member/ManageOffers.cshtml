@@ -1,0 +1,71 @@
+﻿@page
+@model ACC_Demo.Pages.Member.ManageOffersModel
+@{
+    ViewData["Title"] = "Manage Offers";
+}
+
+<div class="container mt-4" style="max-width: 800px;">
+
+    <a asp-page="/Member/MyRequests" class="btn btn-secondary mb-4">← Back to My Requests</a>
+
+    <h2 class="fw-bold mb-1">Offers for: @Model.Request?.Title</h2>
+    <p class="text-muted mb-4">Review members who have offered to help and accept one.</p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (!Model.Offers.Any())
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <h5 class="text-muted">No offers yet</h5>
+                <p class="text-muted">Check back later — community members may still respond.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var offer in Model.Offers)
+        {
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">@offer.Provider?.FullName</h5>
+                        <small class="text-muted">Offered on @offer.CreatedAt.ToString("MMM dd, yyyy")</small>
+                        <div class="mt-1">
+                            @if (offer.Status == "Confirmed")
+                            {
+                                <span class="badge bg-success">Accepted</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Pending</span>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        @if (Model.Request?.AcceptedProviderId == null)
+                        {
+                            <form method="post">
+                                <input type="hidden" name="transactionId" value="@offer.TransactionId" />
+                                <input type="hidden" name="requestId" value="@Model.Request!.RequestId" />
+                                <input type="hidden" name="providerId" value="@offer.ProviderId" />
+                                <button type="submit" class="btn btn-dark">Accept This Offer</button>
+                            </form>
+                        }
+                        else if (Model.Request.AcceptedProviderId == offer.ProviderId)
+                        {
+                            <span class="text-success fw-semibold">✓ Accepted</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Not selected</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,70 @@
+﻿@page
+@model ACC_Demo.Pages.Member.ApproveHoursModel
+@{
+    ViewData["Title"] = "Approve Hours";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+
+    <a asp-page="/Member/MyRequests" class="btn btn-secondary mb-4">← Back to My Requests</a>
+
+    <h2 class="fw-bold mb-1">Approve Hours</h2>
+    <p class="text-muted mb-4">Confirm the service was completed and rate the volunteer.</p>
+
+    @if (Model.Transaction == null)
+    {
+        <div class="alert alert-danger">Transaction not found.</div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <small class="text-uppercase text-muted fw-semibold d-block">Request</small>
+                        <span class="fw-semibold">@Model.Transaction.Request?.Title</span>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-uppercase text-muted fw-semibold d-block">Volunteer</small>
+                        <span class="fw-semibold">@Model.Transaction.Provider?.FullName</span>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-uppercase text-muted fw-semibold d-block">Hours</small>
+                        <span class="fw-semibold">@Model.Transaction.HoursTransferred hrs</span>
+                    </div>
+                    <div class="col-6">
+                        <small class="text-uppercase text-muted fw-semibold d-block">Date</small>
+                        <span class="fw-semibold">@Model.Transaction.CreatedAt.ToString("MMM dd, yyyy")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" name="transactionId" value="@Model.Transaction.TransactionId" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Overall, how would you rate the volunteer service performed?
+                        </label>
+                        <select name="rating" class="form-select" required>
+                            <option value="" disabled selected>Select a rating</option>
+                            <option value="1">1 — No service performed</option>
+                            <option value="2">2 — Below expectations</option>
+                            <option value="3">3 — Met expectations</option>
+                            <option value="4">4 — Above expectations</option>
+                            <option value="5">5 — Exceptional performance</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <a asp-page="/Member/MyRequests" class="btn btn-outline-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-dark px-4">Approve & Award Hours</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>

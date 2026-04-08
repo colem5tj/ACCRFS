@@ -1,0 +1,147 @@
+﻿@page
+@model ACC_Demo.Pages.Member.CreateRequestModel
+@{
+    ViewData["Title"] = "Create Help Request";
+}
+
+<div class="container mt-4" style="max-width: 900px;">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <a asp-page="/Member/Dashboard" class="btn btn-secondary mb-2">← Back to Dashboard</a>
+            <small class="text-muted d-block">New Ticket</small>
+        </div>
+        <div>
+            <a href="/Help" class="text-decoration-none me-3">Help Center</a>
+            <img src="~/images/profile-placeholder.png" alt="Profile" class="rounded-circle" style="width: 32px; height: 32px;">
+        </div>
+    </div>
+
+    <h2 class="mb-2">Create Help Request</h2>
+    <p class="text-muted mb-4">Describe the assistance you need and our community will respond shortly.</p>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-7">
+                <!-- Request Details Section -->
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Request Details</h5>
+                        <p class="text-muted small">All fields marked with an asterisk are required.</p>
+
+                        <!-- Identity & Scope -->
+                        <div class="mb-4">
+                            <h6 class="mb-2">Identity & Scope</h6>
+                            <p class="text-muted small">Provide a clear title and context for your request.</p>
+
+                            <div class="mb-3">
+                                <label asp-for="RequestTitle" class="form-label">Request Title *</label>
+                                <input asp-for="RequestTitle" class="form-control" placeholder="e.g., Caregiving needed for Grandpa" />
+                                <small class="text-muted">Keep it brief and descriptive.</small>
+                                <span asp-validation-for="RequestTitle" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="DetailedDescription" class="form-label">Detailed Description *</label>
+                                <textarea asp-for="DetailedDescription" class="form-control" rows="5"
+                                          placeholder="Explain the specific problem you're facing and what you've tried so far..."></textarea>
+                                <span asp-validation-for="DetailedDescription" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Skills & Availability -->
+                        <div class="mb-4">
+                            <h6 class="mb-2">Skills & Availability</h6>
+                            <p class="text-muted small">Specify the expertise needed and your preferred timeline.</p>
+
+                            <div class="mb-3">
+                                <label asp-for="PrimarySkill" class="form-label">Primary Skill Needed *</label>
+                                <input asp-for="PrimarySkill" class="form-control" placeholder="e.g., Caregiving, Mechanical, Massage Therapy" />
+                                <span asp-validation-for="PrimarySkill" class="text-danger small"></span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="DesiredStartDate" class="form-label">Desired Start Date *</label>
+                                    <input asp-for="DesiredStartDate" type="date" class="form-control" />
+                                    <span asp-validation-for="DesiredStartDate" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="TimeSlot" class="form-label">Time Slot</label>
+                                    <input asp-for="TimeSlot" type="time" class="form-control" />
+                                    <span asp-validation-for="TimeSlot" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Urgency & Effort -->
+                        <div class="mb-3">
+                            <h6 class="mb-2">Urgency & Effort</h6>
+                            <p class="text-muted small">Help others prioritize their time by being realistic.</p>
+
+                            <div class="mb-3">
+                                <label asp-for="EstimatedHours" class="form-label">Estimated Hours *</label>
+                                <input asp-for="EstimatedHours" type="number" class="form-control" value="2" min="1" max="100" />
+                                <small class="text-muted">Approximate effort required from the helper.</small>
+                                <span asp-validation-for="EstimatedHours" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input asp-for="MarkAsUrgent" class="form-check-input" type="checkbox" />
+                                <label asp-for="MarkAsUrgent" class="form-check-label">
+                                    Mark as Urgent
+                                    <small class="d-block text-muted">Request immediate attention</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <small class="text-muted">By submitting, you agree to our Community Guidelines.</small>
+                    <div>
+                        <a href="/Member/MyRequests" class="btn btn-outline-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit Request →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <!-- Submission Tip -->
+                <div class="card mb-3 border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">Submission Tip</h6>
+                        <ul class="small mb-0">
+                            <li>Be specific about the environment and tools needed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Your Recent Skills -->
+                <div class="card mb-3 border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">Your Recent Skills</h6>
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            <span class="badge bg-secondary">Caregiving</span>
+                            <span class="badge bg-secondary">Gardening</span>
+                            <span class="badge bg-secondary">Shopping</span>
+                        </div>
+                        <a href="#" class="small text-decoration-none">Manage Skills</a>
+                    </div>
+                </div>
+
+                <!-- Support Policy -->
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">SUPPORT POLICY</h6>
+                        <p class="small mb-0">Requests are typically matched within 4-6 hours during business hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

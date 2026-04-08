@@ -1,0 +1,60 @@
+﻿@page "{transactionId:int}"
+@model ACC_Demo.Pages.Member.ConfirmHoursModel
+@{
+    ViewData["Title"] = "Confirm Hours";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card-soft p-4">
+            <h2 class="fw-bold mb-3">Confirm Service Hours</h2>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <div class="border rounded-4 p-3">
+                        <div class="text-muted small">Service Provider</div>
+                        <div class="fw-semibold">@Model.ProviderName</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="border rounded-4 p-3">
+                        <div class="text-muted small">Service Receiver</div>
+                        <div class="fw-semibold">@Model.ReceiverName</div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="border rounded-4 p-3">
+                        <div class="text-muted small">Service Summary</div>
+                        <div class="fw-semibold">@Model.RequestTitle</div>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="Input.ActualHoursWorked" class="form-label"></label>
+                    <input asp-for="Input.ActualHoursWorked" class="form-control" step="0.25" />
+                    <span asp-validation-for="Input.ActualHoursWorked" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.ServiceNotes" class="form-label"></label>
+                    <textarea asp-for="Input.ServiceNotes" class="form-control" rows="4"></textarea>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input asp-for="Input.IsConfirmed" class="form-check-input" />
+                    <label asp-for="Input.IsConfirmed" class="form-check-label"></label>
+                </div>
+
+                <button type="submit" class="btn btn-dark">Confirm Hours</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

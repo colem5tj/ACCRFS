@@ -1,0 +1,66 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    background: #f7f7f4;
+    color: #161616;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-soft {
+    background: #ffffff;
+    border: 1px solid #e6e6e6;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.04);
+}
+
+.metric-number {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.sidebar-card {
+    min-height: 100%;
+}
+
+.status-pill {
+    border-radius: 999px;
+    padding: .35rem .75rem;
+    font-size: .8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-open {
+    background: #eef4ff;
+    color: #2458b8;
+}
+
+.status-matched {
+    background: #eef8f0;
+    color: #1d7d3d;
+}
+
+.status-pending {
+    background: #fff8e8;
+    color: #916400;
+}
+
+.status-completed {
+    background: #f1f1f1;
+    color: #444;
+}
+
+.hero-panel {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wireframe-panel {
+    max-width: 480px;
+    width: 100%;
+}

@@ -1,0 +1,158 @@
+﻿@page
+@model ACC_Demo.Pages.Member.LedgerModel
+@{
+    ViewData["Title"] = "Time Ledger";
+}
+
+<div class="container mt-4" style="max-width: 1000px;">
+
+    <a asp-page="/Member/Dashboard" class="btn btn-secondary mb-4">← Back to Dashboard</a>
+
+    <!-- Balance Summary -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <p class="text-uppercase text-muted small mb-1" style="letter-spacing: 0.15em;">Current Account Balance</p>
+            <div class="d-flex align-items-end gap-3">
+                <span style="font-size: 5rem; font-weight: 800; line-height: 1;">@Model.Balance.ToString("F1")</span>
+                <span class="text-muted fw-semibold mb-2" style="font-size: 1.4rem; letter-spacing: 0.1em;">HOURS</span>
+            </div>
+            <div class="d-flex gap-4 mt-2 text-muted small">
+                <span>↗ AVG +@Model.AvgPerWeek / WEEK</span>
+                <span>🕐 LAST UPDATE: @Model.LastUpdateLabel</span>
+            </div>
+        </div>
+
+        <div class="col-md-1 d-none d-md-flex justify-content-center">
+            <div style="width: 1px; height: 120px; background-color: #dee2e6;"></div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="row g-3">
+                <div class="col-6">
+                    <p class="text-uppercase text-muted small mb-0" style="letter-spacing: 0.1em;">Allocated</p>
+                    <p class="fw-bold fs-4 mb-0">@Model.AllocatedHours.ToString("F1")</p>
+                    <small class="text-muted fst-italic">@Model.AllocatedLabel</small>
+                </div>
+                <div class="col-6">
+                    <p class="text-uppercase text-muted small mb-0" style="letter-spacing: 0.1em;">Pending</p>
+                    <p class="fw-bold fs-4 mb-0">@Model.PendingHours.ToString("F1")</p>
+                    <small class="text-muted fst-italic">Awaiting system verification</small>
+                </div>
+                <div class="col-6">
+                    <p class="text-uppercase text-muted small mb-0" style="letter-spacing: 0.1em;">Rate</p>
+                    <p class="fw-bold fs-4 mb-0">1 hour</p>
+                </div>
+                <div class="col-6">
+                    <p class="text-uppercase text-muted small mb-0" style="letter-spacing: 0.1em;">Status</p>
+                    <p class="fw-bold fs-4 mb-0">Active</p>
+                    <small class="text-muted fst-italic">Account in good standing</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+            <h5 class="mb-0 fw-bold">Recent Activity</h5>
+            <span class="text-muted small text-uppercase" style="letter-spacing: 0.1em;">@Model.Transactions.Count ENTRIES</span>
+        </div>
+        <div class="d-flex gap-2">
+            <input type="text" id="filterInput" class="form-control form-control-sm" placeholder="Filter by description..." style="width: 220px;" />
+            <button class="btn btn-sm btn-outline-secondary">⚙ FILTER</button>
+        </div>
+    </div>
+
+    <hr class="mb-0" />
+
+    <table class="table table-borderless align-middle" id="ledgerTable">
+        <thead>
+            <tr class="text-uppercase text-muted small" style="letter-spacing: 0.08em; border-bottom: 1px solid #dee2e6;">
+                <th style="width: 160px;">Date</th>
+                <th>Description</th>
+                <th class="text-end" style="width: 160px;">Amount (Hrs)</th>
+                <th class="text-end" style="width: 140px;">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Transactions.Any())
+            {
+                @foreach (var tx in Model.Transactions)
+                {
+                    <tr class="ledger-row" style="border-bottom: 1px solid #f0f0f0;">
+                        <td>
+                            <div class="fw-semibold">@tx.CreatedAt.ToString("MMM dd, yyyy")</div>
+                            <small class="text-muted">TX-@tx.TransactionId</small>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                @if (tx.ProviderId == Model.CurrentUserId)
+                                {
+                                    <span class="d-inline-flex align-items-center justify-content-center rounded"
+                                          style="width:28px;height:28px;border:1px solid #dee2e6;">↙</span>
+                                }
+                                else
+                                {
+                                    <span class="d-inline-flex align-items-center justify-content-center rounded text-white"
+                                          style="width:28px;height:28px;background:#212529;">↗</span>
+                                }
+                                <span class="ledger-desc">@(tx.Request?.Title ?? "Transaction #" + tx.TransactionId)</span>
+                            </div>
+                        </td>
+                        <td class="text-end fw-semibold @(tx.ProviderId == Model.CurrentUserId ? "text-success" : "")">
+                            @(tx.ProviderId == Model.CurrentUserId ? "+" : "-")@tx.HoursTransferred.ToString("F1")
+                        </td>
+                        <td class="text-end">
+                            @if (tx.Status == "Approved")
+                            {
+                                <span class="badge border border-dark text-dark">Approved</span>
+                            }
+                            else if (tx.Status == "Confirmed")
+                            {
+                                <span class="badge border border-warning text-warning">In Review</span>
+                            }
+                            else if (tx.Status == "Disputed")
+                            {
+                                <span class="badge border border-danger text-danger">Disputed</span>
+                            }
+                            else
+                            {
+                                <span class="badge border border-secondary text-secondary">Pending</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-5">No transactions yet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-end mt-3 mb-5">
+        <nav>
+            <ul class="pagination pagination-sm">
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    document.getElementById('filterInput').addEventListener('input', function () {
+        const filter = this.value.toLowerCase();
+        document.querySelectorAll('.ledger-row').forEach(row => {
+            const desc = row.querySelector('.ledger-desc').textContent.toLowerCase();
+            row.style.display = desc.includes(filter) ? '' : 'none';
+        });
+    });
+</script>

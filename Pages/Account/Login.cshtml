@@ -1,0 +1,62 @@
+﻿@page
+@model ACC_Demo.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center py-5">
+    <div class="col-md-5">
+        <div class="card-soft p-4">
+            <h2 class="fw-bold mb-1">Welcome Back</h2>
+            <p class="text-muted">Enter your credentials or choose a demo account below.</p>
+
+            <form method="post" class="mt-4">
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Sign In</button>
+            </form>
+
+            <hr class="my-4" />
+
+            <p class="text-muted small text-center mb-2">— Sprint 1 Demo: Login As —</p>
+            <div class="d-grid gap-2">
+                <form method="post" asp-page-handler="DemoLogin">
+                    <input type="hidden" name="userId" value="1" />
+                    <button type="submit" class="btn btn-outline-danger w-100">
+                        🛡 Alice Admin
+                        <span class="text-muted small ms-1">(admin@demo.com)</span>
+                    </button>
+                </form>
+                <form method="post" asp-page-handler="DemoLogin">
+                    <input type="hidden" name="userId" value="2" />
+                    <button type="submit" class="btn btn-outline-primary w-100">
+                        👤 Marcus Member
+                        <span class="text-muted small ms-1">(member@demo.com)</span>
+                    </button>
+                </form>
+                <form method="post" asp-page-handler="DemoLogin">
+                    <input type="hidden" name="userId" value="3" />
+                    <button type="submit" class="btn btn-outline-success w-100">
+                        🏢 Olivia OrgRep
+                        <span class="text-muted small ms-1">(org@demo.com)</span>
+                    </button>
+                </form>
+            </div>
+
+            <hr class="my-4" />
+            <a asp-page="/Account/Register" class="btn btn-outline-secondary w-100">Create an Account</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

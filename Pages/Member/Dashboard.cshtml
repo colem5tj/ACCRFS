@@ -1,0 +1,79 @@
+﻿@page
+@model ACC_Demo.Pages.Member.DashboardModel
+@using Microsoft.Extensions.Localization
+@using ACC_Demo
+@inject IStringLocalizer<SharedResources> Localizer
+@{
+    ViewData["Title"] = "Member Dashboard";
+}
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">@Localizer["Sidebar_Navigation"] | Culture: @System.Globalization.CultureInfo.CurrentUICulture.Name</h5>            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Member/Dashboard" class="list-group-item list-group-item-action active">@Localizer["Sidebar_Dashboard"]</a>
+                <a asp-page="/Member/BrowseRequests" class="list-group-item list-group-item-action">@Localizer["Sidebar_BrowseRequests"]</a>
+                <a asp-page="/Member/CreateRequest" class="list-group-item list-group-item-action">@Localizer["Sidebar_PostRequest"]</a>
+                <a asp-page="/Member/MyRequests" class="list-group-item list-group-item-action">@Localizer["Sidebar_MyActivity"]</a>
+                <a asp-page="/Member/Ledger" class="list-group-item list-group-item-action">@Localizer["Sidebar_TimeLedger"]</a>
+                <a asp-page="/Member/Profile" class="list-group-item list-group-item-action">@Localizer["Sidebar_Profile"]</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-soft p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="text-uppercase text-muted small">@Localizer["Dashboard_TotalTimeCredit"]</div>
+                    <div class="metric-number">@Model.CurrentBalance</div>
+                    <div class="fw-semibold">@Localizer["Dashboard_Hours"]</div>
+                </div>
+                <a asp-page="/Member/Ledger" class="btn btn-outline-dark btn-sm">@Localizer["Dashboard_ViewLedger"]</a>
+            </div>
+        </div>
+        <div class="card-soft p-4 mb-4">
+            <div class="d-flex justify-content-between mb-3">
+                <h5 class="fw-bold mb-0">@Localizer["Dashboard_ActiveRequests"]</h5>
+                <a asp-page="/Member/MyRequests">@Localizer["Dashboard_ViewAll"]</a>
+            </div>
+            @foreach (var item in Model.ActiveRequests)
+            {
+                <div class="border rounded-4 p-3 mb-3 bg-white">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="fw-semibold">@item.Title</div>
+                            <div class="text-muted small">@item.Description</div>
+                        </div>
+                        <span class="status-pill status-open">@item.Status</span>
+                    </div>
+                    <div class="small text-muted mt-2">@item.HoursNeeded hrs • @item.UrgencyLevel priority</div>
+                </div>
+            }
+        </div>
+        <div class="card-soft p-4">
+            <h5 class="fw-bold mb-3">@Localizer["Dashboard_AcceptedCommitments"]</h5>
+            @foreach (var item in Model.AcceptedTransactions)
+            {
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>@item.RequestTitle</span>
+                    <span class="fw-semibold">@item.Hours hrs</span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card-soft p-3 mb-4 text-center">
+            <a asp-page="/Member/BrowseRequests" class="btn btn-dark w-100 mb-2">@Localizer["Dashboard_OfferHelp"]</a>
+            <a asp-page="/Member/CreateRequest" class="btn btn-outline-dark w-100">@Localizer["Dashboard_RequestAssistance"]</a>
+        </div>
+        <div class="card-soft p-3">
+            <h6 class="fw-bold">@Localizer["Dashboard_RecentLedger"]</h6>
+            @foreach (var entry in Model.RecentLedger)
+            {
+                <div class="d-flex justify-content-between border-bottom py-2 small">
+                    <span>@entry.Description</span>
+                    <span>@entry.HoursDelta</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
