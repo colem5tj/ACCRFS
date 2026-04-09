@@ -1,8 +1,8 @@
 ﻿@page
 @model ACC_Demo.Pages.Account.RegisterModel
+@{
     ViewData["Title"] = "Register";
 }
-
 <div class="row justify-content-center py-4">
     <div class="col-lg-9">
         <div class="card-soft p-4 p-lg-5">
@@ -13,13 +13,17 @@
                 </div>
                 <span class="badge bg-light text-dark border">Sprint 1</span>
             </div>
-
             <form method="post">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label asp-for="Input.FullName" class="form-label"></label>
-                        <input asp-for="Input.FullName" class="form-control" />
-                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        <label asp-for="Input.FirstName" class="form-label"></label>
+                        <input asp-for="Input.FirstName" class="form-control" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.LastName" class="form-label"></label>
+                        <input asp-for="Input.LastName" class="form-control" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="Input.Email" class="form-label"></label>
@@ -34,9 +38,17 @@
                         <label asp-for="Input.Occupation" class="form-label"></label>
                         <input asp-for="Input.Occupation" class="form-control" />
                     </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.OrganizationName" class="form-label"></label>
+                        <input asp-for="Input.OrganizationName" class="form-control" placeholder="Optional" />
+                    </div>
                     <div class="col-12">
                         <label asp-for="Input.Bio" class="form-label"></label>
                         <textarea asp-for="Input.Bio" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Input.ParticipationPlan" class="form-label"></label>
+                        <textarea asp-for="Input.ParticipationPlan" class="form-control" rows="3" placeholder="Describe how you plan to participate in the community..."></textarea>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="Input.SkillSummary" class="form-label"></label>
@@ -66,7 +78,6 @@
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
                 </div>
-
                 <div class="mt-4 d-flex justify-content-end">
                     <button type="submit" class="btn btn-dark px-4">Submit Profile</button>
                 </div>
@@ -74,7 +85,6 @@
         </div>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

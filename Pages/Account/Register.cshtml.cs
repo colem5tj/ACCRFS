@@ -27,11 +27,15 @@ public class RegisterModel : PageModel
 
         var user = new User
         {
-            FullName = Input.FullName,
+            FirstName = Input.FirstName,
+            LastName = Input.LastName,
+            FullName = $"{Input.FirstName} {Input.LastName}",
             Email = Input.Email,
             PhoneNumber = Input.PhoneNumber,
             Occupation = Input.Occupation,
+            OrganizationName = Input.OrganizationName,
             Bio = Input.Bio,
+            ParticipationPlan = Input.ParticipationPlan,
             PasswordHash = Input.Password,
             CurrentBalance = 0
         };
@@ -48,7 +52,6 @@ public class RegisterModel : PageModel
         });
         _context.SaveChanges();
 
-        // Set session so user is logged in immediately after registration
         HttpContext.Session.SetInt32("UserId", user.UserId);
         HttpContext.Session.SetString("UserName", user.FullName);
         HttpContext.Session.SetString("UserRole", "Member");
@@ -58,21 +61,41 @@ public class RegisterModel : PageModel
 
     public class RegisterInputModel
     {
-        [Required, StringLength(100)]
-        public string FullName { get; set; } = string.Empty;
+        [Required, StringLength(50)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required, StringLength(50)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; } = string.Empty;
 
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;
 
         [Phone]
+        [Display(Name = "Phone Number")]
         public string? PhoneNumber { get; set; }
 
         public string? Occupation { get; set; }
+
+        [Display(Name = "Organization Name")]
+        public string? OrganizationName { get; set; }
+
         public string? Bio { get; set; }
+
+        [Display(Name = "How do you plan on participating?")]
+        public string? ParticipationPlan { get; set; }
+
+        [Display(Name = "Skill Summary")]
         public string? SkillSummary { get; set; }
 
+        [Display(Name = "Search Radius (Miles)")]
         public decimal SearchRadiusMiles { get; set; } = 25;
+
+        [Display(Name = "Hide My Location")]
         public bool IsLocationHidden { get; set; } = true;
+
+        [Display(Name = "Preferred Contact Method")]
         public string PreferredContactMethod { get; set; } = "Email";
 
         [Required, DataType(DataType.Password)]

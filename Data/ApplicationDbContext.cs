@@ -58,6 +58,17 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.CurrentBalance)
             .HasColumnType("decimal(6,2)");
+        modelBuilder.Entity<UserLocationPreference>()
+        .Property(l => l.SearchRadiusMiles)
+        .HasColumnType("decimal(8,2)");
+
+        modelBuilder.Entity<UserLocationPreference>()
+            .Property(l => l.ApproxLatitude)
+            .HasColumnType("decimal(9,6)");
+
+        modelBuilder.Entity<UserLocationPreference>()
+            .Property(l => l.ApproxLongitude)
+            .HasColumnType("decimal(9,6)");
 
         // ── UserRole ───────────────────────────────────────────────────
         modelBuilder.Entity<UserRole>()

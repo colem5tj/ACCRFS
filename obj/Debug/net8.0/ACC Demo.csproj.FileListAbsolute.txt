@@ -139,7 +139,6 @@ C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\staticwebasset
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\ACC Demo.csproj.Up2Date
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\ACC_Demo.dll
 C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\refint\ACC_Demo.dll
@@ -294,3 +293,5 @@ C:\Users\Timothy\Desktop\CIS484\Sprint2\ACCRFS\obj\Debug\net8.0\refint\ACC_Demo.
 C:\Users\Timothy\Desktop\CIS484\Sprint2\ACCRFS\obj\Debug\net8.0\ACC_Demo.pdb
 C:\Users\Timothy\Desktop\CIS484\Sprint2\ACCRFS\obj\Debug\net8.0\ACC Demo.genruntimeconfig.cache
 C:\Users\Timothy\Desktop\CIS484\Sprint2\ACCRFS\obj\Debug\net8.0\ref\ACC_Demo.dll
+C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\en\ACC_Demo.resources.cs
+C:\Users\tjcol\Documents\CIS484\Sprint1\ACC Demo\obj\Debug\net8.0\es\ACC_Demo.resources.cs
