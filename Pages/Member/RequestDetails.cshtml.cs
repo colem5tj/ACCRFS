@@ -17,13 +17,26 @@ public class RequestDetailsModel : PageModel
     [BindProperty]
     public Request? RequestItem { get; set; }
 
+    public double? CreatorLat { get; set; }
+    public double? CreatorLng { get; set; }
+
     public IActionResult OnGet(int id)
     {
         RequestItem = _context.Requests.FirstOrDefault(r => r.RequestId == id);
 
         if (RequestItem == null)
-        {
             return RedirectToPage("/Member/BrowseRequests");
+
+        var locPref = _context.UserLocationPreferences
+            .FirstOrDefault(l => l.UserId == RequestItem.CreatedByUserId
+                               && !l.IsLocationHidden
+                               && l.ApproxLatitude != null
+                               && l.ApproxLongitude != null);
+
+        if (locPref != null)
+        {
+            CreatorLat = (double)locPref.ApproxLatitude!.Value;
+            CreatorLng = (double)locPref.ApproxLongitude!.Value;
         }
 
         return Page();
@@ -35,20 +48,18 @@ public class RequestDetailsModel : PageModel
 
         var request = _context.Requests.FirstOrDefault(r => r.RequestId == RequestItem!.RequestId);
         if (request == null)
-        {
             return RedirectToPage("/Member/BrowseRequests");
-        }
 
         request.Status = "Matched";
 
         _context.Transactions.Add(new Transaction
         {
-            RequestId = request.RequestId,
-            ProviderId = demoProviderId,
-            ReceiverId = request.CreatedByUserId,
-            OrganizationId = request.OrganizationId,
+            RequestId        = request.RequestId,
+            ProviderId       = demoProviderId,
+            ReceiverId       = request.CreatedByUserId,
+            OrganizationId   = request.OrganizationId,
             HoursTransferred = request.HoursNeeded,
-            Status = "Pending"
+            Status           = "Pending"
         });
 
         _context.SaveChanges();

@@ -11,5 +11,8 @@ public class UserLocationPreference
     public decimal? ApproxLongitude { get; set; }
     public bool IsLocationHidden { get; set; } = true;
 
+    [System.ComponentModel.DataAnnotations.StringLength(10)]
+    public string? ZipCode { get; set; }
+
     public User? User { get; set; }
 }

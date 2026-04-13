@@ -14,6 +14,11 @@ builder.Services.AddRazorPages()
     });
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient("Nominatim", client =>
+{
+    client.DefaultRequestHeaders.UserAgent.ParseAdd("ACC-Demo/1.0 (alachuacommunitycollective@gmail.com)");
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddLocalization();

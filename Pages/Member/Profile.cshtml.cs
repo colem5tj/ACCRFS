@@ -3,58 +3,59 @@ using ACC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Text.Json;
 
 namespace ACC_Demo.Pages.Member
 {
     public class ProfileModel : PageModel
     {
         private readonly ApplicationDbContext _db;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public ProfileModel(ApplicationDbContext db)
+        public ProfileModel(ApplicationDbContext db, IHttpClientFactory httpClientFactory)
         {
             _db = db;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public User CurrentUser { get; set; }
+        public User CurrentUser { get; set; } = default!;
+        public double? LocationLat { get; set; }
+        public double? LocationLng { get; set; }
+
+        [BindProperty, Required, StringLength(100)]
+        public string FullName { get; set; } = string.Empty;
+
+        [BindProperty, Required, EmailAddress, StringLength(150)]
+        public string Email { get; set; } = string.Empty;
+
+        [BindProperty, Phone, StringLength(25)]
+        public string? PhoneNumber { get; set; }
+
+        [BindProperty, StringLength(50)]
+        public string? Pronouns { get; set; }
+
+        [BindProperty, StringLength(100)]
+        public string? Occupation { get; set; }
+
+        [BindProperty, StringLength(1000)]
+        public string? Bio { get; set; }
 
         [BindProperty]
-        [Required]
-        [StringLength(100)]
-        public string FullName { get; set; }
+        [StringLength(5)]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "Please enter a valid 5-digit ZIP code.")]
+        public string? ZipCode { get; set; }
 
         [BindProperty]
-        [Required]
-        [EmailAddress]
-        [StringLength(150)]
-        public string Email { get; set; }
-
-        [BindProperty]
-        [Phone]
-        [StringLength(25)]
-        public string PhoneNumber { get; set; }
-
-        [BindProperty]
-        [StringLength(50)]
-        public string Pronouns { get; set; }
-
-        [BindProperty]
-        [StringLength(100)]
-        public string Occupation { get; set; }
-
-        [BindProperty]
-        [StringLength(1000)]
-        public string Bio { get; set; }
+        public bool ShareLocation { get; set; }
 
         public string? SuccessMessage { get; set; }
         public string? ErrorMessage { get; set; }
 
-        // ── Change password fields ────────────────────────────────────────
-        [BindProperty]
-        [DataType(DataType.Password)]
+        [BindProperty, DataType(DataType.Password)]
         public string? NewPassword { get; set; }
 
-        [BindProperty]
-        [DataType(DataType.Password)]
+        [BindProperty, DataType(DataType.Password)]
         public string? ConfirmPassword { get; set; }
 
         public string? PasswordSuccessMessage { get; set; }
@@ -63,53 +64,89 @@ namespace ACC_Demo.Pages.Member
         public IActionResult OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-                return RedirectToPage("/Account/Login");
+            if (userId == null) return RedirectToPage("/Account/Login");
 
-            CurrentUser = _db.Users.Find(userId.Value);
-            if (CurrentUser == null)
-                return RedirectToPage("/Account/Login");
+            CurrentUser = _db.Users.Find(userId.Value)!;
+            if (CurrentUser == null) return RedirectToPage("/Account/Login");
 
-            FullName = CurrentUser.FullName;
-            Email = CurrentUser.Email;
+            FullName    = CurrentUser.FullName;
+            Email       = CurrentUser.Email;
             PhoneNumber = CurrentUser.PhoneNumber;
-            Pronouns = CurrentUser.Pronouns;
-            Occupation = CurrentUser.Occupation;
-            Bio = CurrentUser.Bio;
-            
+            Pronouns    = CurrentUser.Pronouns;
+            Occupation  = CurrentUser.Occupation;
+            Bio         = CurrentUser.Bio;
 
+            LoadLocationForDisplay(userId.Value);
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-                return RedirectToPage("/Account/Login");
+            if (userId == null) return RedirectToPage("/Account/Login");
+
+            // Treat blank ZIP as null so the regex validator skips it
+            if (string.IsNullOrWhiteSpace(ZipCode))
+                ZipCode = null;
 
             if (!ModelState.IsValid)
             {
-                CurrentUser = _db.Users.Find(userId.Value);
+                CurrentUser = _db.Users.Find(userId.Value)!;
+                LoadLocationForDisplay(userId.Value);
                 return Page();
             }
 
             var user = _db.Users.Find(userId.Value);
-            if (user == null)
-                return RedirectToPage("/Account/Login");
+            if (user == null) return RedirectToPage("/Account/Login");
 
-            user.FullName = FullName;
-            user.Email = Email;
+            user.FullName    = FullName;
+            user.Email       = Email;
             user.PhoneNumber = PhoneNumber;
-            user.Pronouns = Pronouns;
-            user.Occupation = Occupation;
-            user.Bio = Bio;
-            
+            user.Pronouns    = Pronouns;
+            user.Occupation  = Occupation;
+            user.Bio         = Bio;
+
+            // ── Location ──────────────────────────────────────────────────────
+            var locPref = _db.UserLocationPreferences.FirstOrDefault(l => l.UserId == userId.Value);
+            bool isNew = locPref == null;
+            locPref ??= new UserLocationPreference { UserId = userId.Value };
+
+            string? oldZip = locPref.ZipCode;
+            locPref.ZipCode          = ZipCode;
+            locPref.IsLocationHidden = !ShareLocation;
+
+            if (!string.IsNullOrWhiteSpace(ZipCode) && ZipCode != oldZip)
+            {
+                var (lat, lng) = await GeocodeZipAsync(ZipCode);
+                if (lat.HasValue)
+                {
+                    locPref.ApproxLatitude  = (decimal)lat.Value;
+                    locPref.ApproxLongitude = (decimal)lng!.Value;
+                }
+                else
+                {
+                    ErrorMessage = "ZIP code not found — location preview not updated.";
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(ZipCode))
+            {
+                locPref.ApproxLatitude  = null;
+                locPref.ApproxLongitude = null;
+            }
+
+            if (isNew)
+                _db.UserLocationPreferences.Add(locPref);
 
             _db.SaveChanges();
-
             HttpContext.Session.SetString("UserName", user.FullName);
 
-            SuccessMessage = "Profile updated successfully!";
+            if (locPref.ApproxLatitude.HasValue)
+            {
+                LocationLat = (double)locPref.ApproxLatitude;
+                LocationLng = (double)locPref.ApproxLongitude!.Value;
+            }
+
+            SuccessMessage ??= "Profile updated successfully!";
             CurrentUser = user;
             return Page();
         }
@@ -117,21 +154,18 @@ namespace ACC_Demo.Pages.Member
         public IActionResult OnPostChangePassword()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-                return RedirectToPage("/Account/Login");
+            if (userId == null) return RedirectToPage("/Account/Login");
 
-            // Reload display data regardless of outcome
-            CurrentUser = _db.Users.Find(userId.Value);
-            if (CurrentUser == null)
-                return RedirectToPage("/Account/Login");
+            CurrentUser = _db.Users.Find(userId.Value)!;
+            if (CurrentUser == null) return RedirectToPage("/Account/Login");
 
-            // Re-populate profile fields so the page renders correctly
             FullName    = CurrentUser.FullName;
             Email       = CurrentUser.Email;
             PhoneNumber = CurrentUser.PhoneNumber;
             Pronouns    = CurrentUser.Pronouns;
             Occupation  = CurrentUser.Occupation;
             Bio         = CurrentUser.Bio;
+            LoadLocationForDisplay(userId.Value);
 
             if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 6)
             {
@@ -152,6 +186,42 @@ namespace ACC_Demo.Pages.Member
             NewPassword     = null;
             ConfirmPassword = null;
             return Page();
+        }
+
+        // ── Helpers ───────────────────────────────────────────────────────────
+
+        private void LoadLocationForDisplay(int userId)
+        {
+            var locPref = _db.UserLocationPreferences.FirstOrDefault(l => l.UserId == userId);
+            if (locPref == null) return;
+            ZipCode       = locPref.ZipCode;
+            ShareLocation = !locPref.IsLocationHidden;
+            if (locPref.ApproxLatitude.HasValue)
+            {
+                LocationLat = (double)locPref.ApproxLatitude;
+                LocationLng = (double)locPref.ApproxLongitude!.Value;
+            }
+        }
+
+        private async Task<(double? Lat, double? Lng)> GeocodeZipAsync(string zip)
+        {
+            try
+            {
+                var client = _httpClientFactory.CreateClient("Nominatim");
+                var url    = $"https://nominatim.openstreetmap.org/search?postalcode={Uri.EscapeDataString(zip)}&countrycodes=US&format=json&limit=1";
+                var json   = await client.GetStringAsync(url);
+                using var doc  = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+                if (root.GetArrayLength() > 0)
+                {
+                    var first = root[0];
+                    double lat = double.Parse(first.GetProperty("lat").GetString()!, CultureInfo.InvariantCulture);
+                    double lng = double.Parse(first.GetProperty("lon").GetString()!, CultureInfo.InvariantCulture);
+                    return (lat, lng);
+                }
+            }
+            catch { /* geocoding failure is non-fatal */ }
+            return (null, null);
         }
     }
 }

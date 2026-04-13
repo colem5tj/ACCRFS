@@ -2,7 +2,6 @@ using ACC_Demo.Data;
 using ACC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace ACC_Demo.Pages.Member
 {
@@ -15,13 +14,13 @@ namespace ACC_Demo.Pages.Member
             _db = db;
         }
 
-        public List<Request> Requests { get; set; }
+        public List<Request> Requests { get; set; } = new();
 
         [BindProperty(SupportsGet = true)]
-        public string SearchTerm { get; set; }
+        public string? SearchTerm { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string SkillFilter { get; set; }
+        public string? SkillFilter { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public bool UrgentOnly { get; set; }
@@ -31,22 +30,13 @@ namespace ACC_Demo.Pages.Member
             var query = _db.Requests.AsQueryable();
 
             if (!string.IsNullOrEmpty(SearchTerm))
-            {
-                query = query.Where(r =>
-                    r.Title.Contains(SearchTerm) ||
-                    r.Description.Contains(SearchTerm));
-            }
+                query = query.Where(r => r.Title.Contains(SearchTerm) || r.Description.Contains(SearchTerm));
 
             if (!string.IsNullOrEmpty(SkillFilter))
-            {
-                query = query.Where(r => r.Title.Contains(SkillFilter) ||
-                                         r.Description.Contains(SkillFilter));
-            }
+                query = query.Where(r => r.Title.Contains(SkillFilter) || r.Description.Contains(SkillFilter));
 
             if (UrgentOnly)
-            {
                 query = query.Where(r => r.UrgencyLevel == "High");
-            }
 
             Requests = query.OrderByDescending(r => r.CreatedAt).ToList();
         }

@@ -92,6 +92,7 @@
                             </div>
 
                             <div class="d-flex gap-2">
+                                <a href="/Member/RequestDetails/@request.RequestId" class="btn btn-sm btn-outline-secondary">View Details</a>
                                 @if (request.CreatedByUserId == currentUserId)
                                 {
                                     <button class="btn btn-sm btn-secondary" disabled>Your Request</button>
@@ -130,3 +131,4 @@
             transform: translateY(-2px);
         }
 </style>
+
