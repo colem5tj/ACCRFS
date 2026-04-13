@@ -36,7 +36,7 @@ public class RegisterModel : PageModel
             OrganizationName = Input.OrganizationName,
             Bio = Input.Bio,
             ParticipationPlan = Input.ParticipationPlan,
-            PasswordHash = Input.Password,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(Input.Password),
             CurrentBalance = 0
         };
 

@@ -13,7 +13,9 @@
         <div class="col-md-6">
             <p class="text-uppercase text-muted small mb-1" style="letter-spacing: 0.15em;">Current Account Balance</p>
             <div class="d-flex align-items-end gap-3">
-                <span style="font-size: 5rem; font-weight: 800; line-height: 1;">@Model.Balance.ToString("F1")</span>
+                <span style="font-size: 5rem; font-weight: 800; line-height: 1; color: @(Model.Balance < 0 ? "#dc3545" : "inherit");">
+                    @Model.Balance.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+                </span>
                 <span class="text-muted fw-semibold mb-2" style="font-size: 1.4rem; letter-spacing: 0.1em;">HOURS</span>
             </div>
             <div class="d-flex gap-4 mt-2 text-muted small">
@@ -99,8 +101,8 @@
                                 <span class="ledger-desc">@(tx.Request?.Title ?? "Transaction #" + tx.TransactionId)</span>
                             </div>
                         </td>
-                        <td class="text-end fw-semibold>
-                            @(tx.ProviderId == Model.CurrentUserId ? "+" : "-")@tx.HoursTransferred.ToString("F1")
+                        <td class="text-end fw-semibold">
+                            @(tx.ProviderId == Model.CurrentUserId ? "+" : "-")@tx.HoursTransferred.ToString("F1", System.Globalization.CultureInfo.InvariantCulture)
                         </td>
                         <td class="text-end">
                             @if (tx.Status == "Approved")

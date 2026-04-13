@@ -48,6 +48,18 @@ namespace ACC_Demo.Pages.Member
         public string? SuccessMessage { get; set; }
         public string? ErrorMessage { get; set; }
 
+        // ── Change password fields ────────────────────────────────────────
+        [BindProperty]
+        [DataType(DataType.Password)]
+        public string? NewPassword { get; set; }
+
+        [BindProperty]
+        [DataType(DataType.Password)]
+        public string? ConfirmPassword { get; set; }
+
+        public string? PasswordSuccessMessage { get; set; }
+        public string? PasswordErrorMessage { get; set; }
+
         public IActionResult OnGet()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -99,6 +111,46 @@ namespace ACC_Demo.Pages.Member
 
             SuccessMessage = "Profile updated successfully!";
             CurrentUser = user;
+            return Page();
+        }
+
+        public IActionResult OnPostChangePassword()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToPage("/Account/Login");
+
+            // Reload display data regardless of outcome
+            CurrentUser = _db.Users.Find(userId.Value);
+            if (CurrentUser == null)
+                return RedirectToPage("/Account/Login");
+
+            // Re-populate profile fields so the page renders correctly
+            FullName    = CurrentUser.FullName;
+            Email       = CurrentUser.Email;
+            PhoneNumber = CurrentUser.PhoneNumber;
+            Pronouns    = CurrentUser.Pronouns;
+            Occupation  = CurrentUser.Occupation;
+            Bio         = CurrentUser.Bio;
+
+            if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 6)
+            {
+                PasswordErrorMessage = "New password must be at least 6 characters.";
+                return Page();
+            }
+
+            if (NewPassword != ConfirmPassword)
+            {
+                PasswordErrorMessage = "Passwords do not match. Please try again.";
+                return Page();
+            }
+
+            CurrentUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(NewPassword);
+            _db.SaveChanges();
+
+            PasswordSuccessMessage = "Password changed successfully.";
+            NewPassword     = null;
+            ConfirmPassword = null;
             return Page();
         }
     }

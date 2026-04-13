@@ -1,23 +1,24 @@
-﻿@page
+@page
 @model ACC_Demo.Pages.Admin.DashboardModel
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
 
 <div class="row g-4">
-
     <!-- Sidebar -->
     <div class="col-lg-3">
         <div class="card-soft p-3">
             <h5 class="fw-bold">Admin Panel</h5>
-
             <div class="list-group list-group-flush mt-3">
                 <a asp-page="/Admin/Dashboard" class="list-group-item list-group-item-action active">
                     Overview
                 </a>
-                <a class="list-group-item list-group-item-action">User Management</a>
-                <a class="list-group-item list-group-item-action">Reports</a>
-                <a class="list-group-item list-group-item-action">Moderation</a>
+                <a class="list-group-item list-group-item-action" href="#users-panel"
+                   onclick="switchTab('users-tab')">User Management</a>
+                <a class="list-group-item list-group-item-action" href="#reports-panel"
+                   onclick="switchTab('reports-tab')">Reports</a>
+                <a class="list-group-item list-group-item-action" href="#moderation-panel"
+                   onclick="switchTab('moderation-tab')">Moderation</a>
             </div>
         </div>
     </div>
@@ -25,7 +26,7 @@
     <!-- Main Content -->
     <div class="col-lg-9">
 
-        <!-- Metrics -->
+        <!-- Metric Cards -->
         <div class="row g-3 mb-4">
             <div class="col-md-3">
                 <div class="card-soft p-3">
@@ -33,21 +34,18 @@
                     <div class="metric-number">@Model.ActiveUsers</div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <div class="card-soft p-3">
                     <div class="small text-muted">Open Requests</div>
                     <div class="metric-number">@Model.OpenRequests</div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <div class="card-soft p-3">
                     <div class="small text-muted">Pending Approvals</div>
                     <div class="metric-number">@Model.PendingApprovals</div>
                 </div>
             </div>
-
             <div class="col-md-3">
                 <div class="card-soft p-3">
                     <div class="small text-muted">Flagged Users</div>
@@ -56,51 +54,603 @@
             </div>
         </div>
 
-        <!-- Users Table -->
-        <div class="card-soft p-4 mb-4">
-            <h5 class="fw-bold mb-3">User Access Management</h5>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var user in Model.Users)
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="users-tab" data-bs-toggle="tab"
+                        data-bs-target="#users-panel" type="button" role="tab">
+                    User Management
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="reports-tab" data-bs-toggle="tab"
+                        data-bs-target="#reports-panel" type="button" role="tab">
+                    Reports
+                    @if (Model.AdminReports.Count > 0)
                     {
-                        <tr>
-                            <td>@user.FullName</td>
-                            <td>@user.Email</td>
-                            <td>@(user.IsActive ? "Active" : "Inactive")</td>
-                            <td>@user.RoleName</td>
-                        </tr>
+                        <span class="badge bg-danger ms-1">@Model.AdminReports.Count</span>
                     }
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Reports / Flags -->
-        <div class="card-soft p-4">
-            <h5 class="fw-bold mb-3">Recent Reports</h5>
-
-            @if (Model.RecentReports.Count == 0)
-            {
-                <p class="text-muted">No reports at this time.</p>
-            }
-            else
-            {
-                <ul>
-                    @foreach (var report in Model.RecentReports)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="moderation-tab" data-bs-toggle="tab"
+                        data-bs-target="#moderation-panel" type="button" role="tab">
+                    Moderation
+                    @if (Model.FlaggedUsers > 0)
                     {
-                        <li>@report</li>
+                        <span class="badge bg-warning text-dark ms-1">@Model.FlaggedUsers</span>
                     }
-                </ul>
-            }
-        </div>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="requests-tab" data-bs-toggle="tab"
+                        data-bs-target="#requests-panel" type="button" role="tab">
+                    All Requests
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="offers-tab" data-bs-toggle="tab"
+                        data-bs-target="#offers-panel" type="button" role="tab">
+                    Offer Activity
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="feedback-tab" data-bs-toggle="tab"
+                        data-bs-target="#feedback-panel" type="button" role="tab">
+                    Feedback
+                    @if (Model.LowRatingCount > 0)
+                    {
+                        <span class="badge bg-danger ms-1">@Model.LowRatingCount</span>
+                    }
+                </button>
+            </li>
+        </ul>
 
-    </div>
-</div>
+        <div class="tab-content" id="adminTabsContent">
+
+            <!-- ── Tab 1: User Management ───────────────────────────────── -->
+            <div class="tab-pane fade show active" id="users-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">User Management</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>@user.FullName</td>
+                                        <td>
+                                            <small>@user.Email</small>
+                                        </td>
+                                        <td>@user.RoleName</td>
+                                        <td>
+                                            @if (user.IsBanned)
+                                            {
+                                                <span class="badge bg-danger">Banned</span>
+                                            }
+                                            else if (user.IsFlagged)
+                                            {
+                                                <span class="badge bg-warning text-dark">Flagged</span>
+                                            }
+                                            else if (user.IsActive)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (user.UserId == Model.CurrentUserId)
+                                            {
+                                                <span class="text-muted small">You</span>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex gap-1 flex-wrap">
+                                                    @if (user.IsBanned)
+                                                    {
+                                                        <form method="post" asp-page-handler="UnbanUser"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                                Unban
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <form method="post" asp-page-handler="BanUser"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                                Ban
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    <form method="post" asp-page-handler="DeleteUser"
+                                                          asp-route-userId="@user.UserId" class="d-inline"
+                                                          onsubmit="return confirm('Permanently delete @user.FullName and all their data? This cannot be undone.');">
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Tab 2: Reports ───────────────────────────────────────── -->
+            <div class="tab-pane fade" id="reports-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Admin Reports</h5>
+                    @if (Model.AdminReports.Count == 0)
+                    {
+                        <p class="text-muted">No reports have been submitted.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Reported By</th>
+                                        <th>Reported User</th>
+                                        <th>Reason</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var report in Model.AdminReports)
+                                    {
+                                        <tr>
+                                            <td class="text-muted small">@report.AdminReportId</td>
+                                            <td>
+                                                @report.ReporterName<br />
+                                                <small class="text-muted">@report.ReporterEmail</small>
+                                            </td>
+                                            <td>
+                                                @report.ReportedUserName
+                                                @if (report.IsReportedUserFlagged)
+                                                {
+                                                    <span class="badge bg-warning text-dark ms-1">Flagged</span>
+                                                }
+                                                <br />
+                                                <small class="text-muted">@report.ReportedUserEmail</small>
+                                            </td>
+                                            <td style="max-width:260px;">
+                                                <span class="text-truncate d-inline-block" style="max-width:240px;"
+                                                      title="@report.Reason">@report.Reason</span>
+                                            </td>
+                                            <td class="small text-nowrap">
+                                                @report.CreatedAt.ToString("MM/dd/yyyy")
+                                            </td>
+                                            <td>
+                                                @if (!report.IsReportedUserFlagged)
+                                                {
+                                                    <form method="post" asp-page-handler="FlagUser"
+                                                          asp-route-userId="@report.ReportedUserId" class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-warning">
+                                                            Flag User
+                                                        </button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted small">Already flagged</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Tab 3: Moderation ────────────────────────────────────── -->
+            <div class="tab-pane fade" id="moderation-panel" role="tabpanel">
+
+                <!-- Flagged Users section -->
+                <div class="card-soft p-4 mb-4">
+                    <h5 class="fw-bold mb-3">
+                        Flagged Users
+                        @if (Model.FlaggedUsersList.Count > 0)
+                        {
+                            <span class="badge bg-warning text-dark ms-2">@Model.FlaggedUsersList.Count</span>
+                        }
+                    </h5>
+                    @if (Model.FlaggedUsersList.Count == 0)
+                    {
+                        <p class="text-muted">No users are currently flagged.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Banned?</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model.FlaggedUsersList)
+                                    {
+                                        <tr>
+                                            <td>@user.FullName</td>
+                                            <td><small>@user.Email</small></td>
+                                            <td>@user.RoleName</td>
+                                            <td>
+                                                @if (user.IsBanned)
+                                                {
+                                                    <span class="badge bg-danger">Yes</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">No</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (user.UserId == Model.CurrentUserId)
+                                                {
+                                                    <span class="text-muted small">You</span>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex gap-1 flex-wrap">
+                                                        <form method="post" asp-page-handler="UnflagUser"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                                Unflag
+                                                            </button>
+                                                        </form>
+                                                        @if (!user.IsBanned)
+                                                        {
+                                                            <form method="post" asp-page-handler="BanUser"
+                                                                  asp-route-userId="@user.UserId" class="d-inline">
+                                                                <button type="submit" class="btn btn-sm btn-warning">
+                                                                    Ban
+                                                                </button>
+                                                            </form>
+                                                        }
+                                                        else
+                                                        {
+                                                            <form method="post" asp-page-handler="UnbanUser"
+                                                                  asp-route-userId="@user.UserId" class="d-inline">
+                                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                                    Unban
+                                                                </button>
+                                                            </form>
+                                                        }
+                                                    </div>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+
+                <!-- Flag any user section -->
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Flag / Unflag Users</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td>@user.FullName</td>
+                                        <td><small>@user.Email</small></td>
+                                        <td>@user.RoleName</td>
+                                        <td>
+                                            @if (user.IsFlagged)
+                                            {
+                                                <span class="badge bg-warning text-dark">Flagged</span>
+                                            }
+                                            else if (user.IsBanned)
+                                            {
+                                                <span class="badge bg-danger">Banned</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (user.IsFlagged)
+                                            {
+                                                <form method="post" asp-page-handler="UnflagUser"
+                                                      asp-route-userId="@user.UserId" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                        Unflag
+                                                    </button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <form method="post" asp-page-handler="FlagUser"
+                                                      asp-route-userId="@user.UserId" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-outline-warning">
+                                                        Flag
+                                                    </button>
+                                                </form>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Tab 4: All Requests ──────────────────────────────────── -->
+            <div class="tab-pane fade" id="requests-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">All Submitted Requests</h5>
+                    @if (Model.AllRequests.Count == 0)
+                    {
+                        <p class="text-muted">No requests have been submitted yet.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Requested By</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                    <th>Accepted By</th>
+                                    <th>Submitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var req in Model.AllRequests)
+                                {
+                                    <tr>
+                                        <td>@req.RequestId</td>
+                                        <td>@req.Title</td>
+                                        <td>
+                                            @req.RequesterName<br />
+                                            <small class="text-muted">@req.RequesterEmail</small>
+                                        </td>
+                                        <td>@req.HoursNeeded</td>
+                                        <td>
+                                            <span class="badge @(req.Status == "Open" ? "bg-primary" : req.Status == "Completed" ? "bg-success" : "bg-secondary")">
+                                                @req.Status
+                                            </span>
+                                        </td>
+                                        <td>@req.AcceptedByName</td>
+                                        <td>@req.CreatedAt.ToString("MM/dd/yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Tab 5: Offer Activity ────────────────────────────────── -->
+            <div class="tab-pane fade" id="offers-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Offer Activity</h5>
+                    @if (Model.OfferActivity.Count == 0)
+                    {
+                        <p class="text-muted">No offers have been made yet.</p>
+                    }
+                    else
+                    {
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Request</th>
+                                    <th>Requested By</th>
+                                    <th>Help Offered By</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var offer in Model.OfferActivity)
+                                {
+                                    <tr>
+                                        <td>@offer.RequestTitle</td>
+                                        <td>@offer.RequesterName</td>
+                                        <td>
+                                            @offer.ProviderName<br />
+                                            <small class="text-muted">@offer.ProviderEmail</small>
+                                        </td>
+                                        <td>@offer.HoursNeeded</td>
+                                        <td>
+                                            <span class="badge @(offer.Status == "Open" ? "bg-primary" : offer.Status == "Completed" ? "bg-success" : "bg-secondary")">
+                                                @offer.Status
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Tab 6: Feedback ──────────────────────────────────────── -->
+            <div class="tab-pane fade" id="feedback-panel" role="tabpanel">
+
+                @if (Model.LowRatingCount > 0)
+                {
+                    <div class="alert alert-danger d-flex align-items-start gap-2 mb-3">
+                        <span style="font-size:1.2rem;">&#9888;</span>
+                        <div>
+                            <strong>@Model.LowRatingCount hour@(Model.LowRatingCount > 1 ? "s" : "") on hold — pending your review</strong>
+                            <ul class="mb-0 mt-1">
+                                @foreach (var fb in Model.AllFeedback.Where(f => f.Rating == 1 && f.TransactionStatus == "PendingReview"))
+                                {
+                                    <li>
+                                        <strong>@fb.VolunteerName</strong> &mdash; rated 1/5 by @fb.GivenByName
+                                        @if (!string.IsNullOrWhiteSpace(fb.Comments))
+                                        {
+                                            <span class="text-muted fst-italic">&ldquo;@fb.Comments&rdquo;</span>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Submitted Feedback</h5>
+                    @if (Model.AllFeedback.Count == 0)
+                    {
+                        <p class="text-muted">No feedback has been submitted yet.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Volunteer</th>
+                                        <th>Reviewed By</th>
+                                        <th>Rating</th>
+                                        <th>Tags</th>
+                                        <th>Comments</th>
+                                        <th>Hours</th>
+                                        <th>Hours Decision</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var fb in Model.AllFeedback)
+                                    {
+                                        <tr class="@(fb.Rating == 1 && fb.TransactionStatus == "PendingReview" ? "table-danger" : "")">
+                                            <td>
+                                                <strong>@fb.VolunteerName</strong><br />
+                                                <small class="text-muted">@fb.VolunteerEmail</small>
+                                            </td>
+                                            <td>
+                                                @fb.GivenByName<br />
+                                                <small class="text-muted">@fb.GivenByEmail</small>
+                                            </td>
+                                            <td>
+                                                @if (fb.Rating == 1)
+                                                {
+                                                    <span class="badge bg-danger me-1">&#9888; Low</span>
+                                                }
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <span style="color: @(i <= fb.Rating ? "#f5a623" : "#ccc")">&#9733;</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (fb.IsCheerful)
+                                                {
+                                                    <span class="badge bg-info me-1">Cheerful</span>
+                                                }
+                                                @if (fb.IsEfficient)
+                                                {
+                                                    <span class="badge bg-info me-1">Efficient</span>
+                                                }
+                                                @if (fb.IsOnTime)
+                                                {
+                                                    <span class="badge bg-info me-1">On Time</span>
+                                                }
+                                                @if (fb.IsHighlySkilled)
+                                                {
+                                                    <span class="badge bg-info me-1">Highly Skilled</span>
+                                                }
+                                            </td>
+                                            <td>@(string.IsNullOrWhiteSpace(fb.Comments) ? "—" : fb.Comments)</td>
+                                            <td>@fb.HoursTransferred</td>
+                                            <td>
+                                                @if (fb.Rating == 1 && fb.TransactionStatus == "PendingReview")
+                                                {
+                                                    <div class="d-flex gap-1">
+                                                        <form method="post" asp-page-handler="ApproveTransaction"
+                                                              asp-route-transactionId="@fb.TransactionId">
+                                                            <button type="submit" class="btn btn-sm btn-success"
+                                                                    title="Award hours to volunteer">
+                                                                Award
+                                                            </button>
+                                                        </form>
+                                                        <form method="post" asp-page-handler="RejectTransaction"
+                                                              asp-route-transactionId="@fb.TransactionId">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                                    title="Withhold hours from volunteer">
+                                                                Withhold
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                }
+                                                else if (fb.Rating == 1 && fb.TransactionStatus == "Approved")
+                                                {
+                                                    <span class="badge bg-success">Awarded</span>
+                                                }
+                                                else if (fb.Rating == 1 && fb.TransactionStatus == "Rejected")
+                                                {
+                                                    <span class="badge bg-secondary">Withheld</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted small">—</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div><!-- end tab-content -->
+    </div><!-- end col-lg-9 -->
+</div><!-- end row -->
+
+@section Scripts {
+    <script>
+        function switchTab(tabId) {
+            const tab = document.getElementById(tabId);
+            if (tab) {
+                bootstrap.Tab.getOrCreateInstance(tab).show();
+                window.scrollTo(0, 0);
+            }
+        }
+    </script>
+}

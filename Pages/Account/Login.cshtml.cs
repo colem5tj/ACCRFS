@@ -27,9 +27,9 @@ public class LoginModel : PageModel
             return Page();
 
         var user = _context.Users
-            .FirstOrDefault(u => u.Email == Input.Email && u.PasswordHash == Input.Password);
+            .FirstOrDefault(u => u.Email == Input.Email);
 
-        if (user == null)
+        if (user == null || !BCrypt.Net.BCrypt.Verify(Input.Password, user.PasswordHash))
         {
             ErrorMessage = "Invalid email or password.";
             return Page();

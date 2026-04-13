@@ -46,16 +46,9 @@ namespace ACC_Demo.Pages.Member
             if (transaction == null)
                 return NotFound();
 
-            // Approve the transaction
-            transaction.Status = "Approved";
             transaction.ConfirmedAt = DateTime.UtcNow;
 
-            // Award hours to provider
-            var provider = await _db.Users.FindAsync(transaction.ProviderId);
-            if (provider != null)
-                provider.CurrentBalance += transaction.HoursTransferred;
-
-            // Save feedback
+            // Save feedback first so we have the rating
             var feedback = new Feedback
             {
                 TransactionId = transaction.TransactionId,
@@ -65,9 +58,64 @@ namespace ACC_Demo.Pages.Member
             };
             _db.FeedbackItems.Add(feedback);
 
-            // Mark request as completed
+            // Mark request as completed regardless of rating
             if (transaction.Request != null)
                 transaction.Request.Status = "Completed";
+
+            if (rating == 1)
+            {
+                // Hold hours pending admin review — balances not touched yet
+                transaction.Status = "PendingReview";
+
+                string volunteerName = (await _db.Users.FindAsync(transaction.ProviderId))?.FullName ?? "a volunteer";
+                string requesterName = (await _db.Users.FindAsync(transaction.ReceiverId))?.FullName ?? "a member";
+                string requestTitle  = transaction.Request?.Title ?? "a request";
+
+                var adminIds = (from ur in _db.UserRoles
+                                join r in _db.Roles on ur.RoleId equals r.RoleId
+                                where r.RoleName == "Admin"
+                                select ur.UserId).ToList();
+
+                foreach (var adminId in adminIds)
+                {
+                    _db.Notifications.Add(new Notification
+                    {
+                        UserId    = adminId,
+                        Type      = "LowRating",
+                        Message   = $"1-star rating: {requesterName} rated {volunteerName} 1/5 for \"{requestTitle}\". Hours are on hold pending your review.",
+                        IsRead    = false,
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
+            }
+            else
+            {
+                // Normal approval — credit provider, debit receiver, write ledger
+                transaction.Status = "Approved";
+
+                var provider = await _db.Users.FindAsync(transaction.ProviderId);
+                if (provider != null)
+                    provider.CurrentBalance += transaction.HoursTransferred;
+
+                var receiver = await _db.Users.FindAsync(transaction.ReceiverId);
+                if (receiver != null)
+                    receiver.CurrentBalance -= transaction.HoursTransferred;
+
+                _db.TimeLedgers.Add(new TimeLedger
+                {
+                    UserId           = transaction.ProviderId,
+                    TransactionId    = transaction.TransactionId,
+                    HoursChange      = transaction.HoursTransferred,
+                    BalanceAfter     = provider?.CurrentBalance ?? 0
+                });
+                _db.TimeLedgers.Add(new TimeLedger
+                {
+                    UserId           = transaction.ReceiverId,
+                    TransactionId    = transaction.TransactionId,
+                    HoursChange      = -transaction.HoursTransferred,
+                    BalanceAfter     = receiver?.CurrentBalance ?? 0
+                });
+            }
 
             await _db.SaveChangesAsync();
 

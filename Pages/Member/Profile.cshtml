@@ -29,7 +29,9 @@
             <h5 class="card-title mb-3">Account Stats</h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h4 class="text-primary">@Model.CurrentUser.CurrentBalance</h4>
+                    <h4 class="@(Model.CurrentUser.CurrentBalance < 0 ? "text-danger" : "text-primary")">
+                        @Model.CurrentUser.CurrentBalance.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
+                    </h4>
                     <small class="text-muted">Time Credits</small>
                 </div>
                 <div class="col-4">
@@ -97,8 +99,85 @@
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
     </form>
+
+    <!-- Change Password -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title mb-0">Change Password</h5>
+                    <small class="text-muted">Update the password used to sign in.</small>
+                </div>
+                <button class="btn btn-outline-secondary btn-sm" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#changePasswordForm"
+                        aria-expanded="false">
+                    Change Password
+                </button>
+            </div>
+
+            @if (Model.PasswordSuccessMessage != null)
+            {
+                <div class="alert alert-success mt-3 mb-0">@Model.PasswordSuccessMessage</div>
+            }
+
+            <div class="collapse mt-3" id="changePasswordForm">
+                @if (Model.PasswordErrorMessage != null)
+                {
+                    <div class="alert alert-danger">@Model.PasswordErrorMessage</div>
+                }
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="mb-3">
+                        <label for="NewPassword" class="form-label">New Password</label>
+                        <input type="password" id="NewPassword" name="NewPassword"
+                               class="form-control" placeholder="At least 6 characters"
+                               autocomplete="new-password" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword"
+                               class="form-control" placeholder="Re-enter new password"
+                               autocomplete="new-password" />
+                        <div id="passwordMismatch" class="text-danger small mt-1" style="display:none;">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" id="changePasswordBtn" class="btn btn-primary">
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const newPw  = document.getElementById('NewPassword');
+            const confPw = document.getElementById('ConfirmPassword');
+            const msg    = document.getElementById('passwordMismatch');
+            const btn    = document.getElementById('changePasswordBtn');
+
+            function check() {
+                const mismatch = confPw.value.length > 0 && newPw.value !== confPw.value;
+                msg.style.display = mismatch ? 'block' : 'none';
+                btn.disabled = mismatch;
+            }
+
+            // Re-open the collapse if there was a server-side password error/success
+            @if (Model.PasswordErrorMessage != null)
+            {
+                <text>
+                var el = document.getElementById('changePasswordForm');
+                if (el) new bootstrap.Collapse(el, { toggle: false }).show();
+                </text>
+            }
+
+            newPw.addEventListener('input', check);
+            confPw.addEventListener('input', check);
+        })();
+    </script>
 }
