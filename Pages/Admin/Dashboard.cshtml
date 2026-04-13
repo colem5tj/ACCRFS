@@ -5,26 +5,8 @@
 }
 
 <div class="row g-4">
-    <!-- Sidebar -->
-    <div class="col-lg-3">
-        <div class="card-soft p-3">
-            <h5 class="fw-bold">Admin Panel</h5>
-            <div class="list-group list-group-flush mt-3">
-                <a asp-page="/Admin/Dashboard" class="list-group-item list-group-item-action active">
-                    Overview
-                </a>
-                <a class="list-group-item list-group-item-action" href="#users-panel"
-                   onclick="switchTab('users-tab')">User Management</a>
-                <a class="list-group-item list-group-item-action" href="#reports-panel"
-                   onclick="switchTab('reports-tab')">Reports</a>
-                <a class="list-group-item list-group-item-action" href="#moderation-panel"
-                   onclick="switchTab('moderation-tab')">Moderation</a>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
-    <div class="col-lg-9">
+    <div class="col-12">
 
         <!-- Metric Cards -->
         <div class="row g-3 mb-4">
@@ -643,14 +625,3 @@
     </div><!-- end col-lg-9 -->
 </div><!-- end row -->
 
-@section Scripts {
-    <script>
-        function switchTab(tabId) {
-            const tab = document.getElementById(tabId);
-            if (tab) {
-                bootstrap.Tab.getOrCreateInstance(tab).show();
-                window.scrollTo(0, 0);
-            }
-        }
-    </script>
-}
