@@ -86,6 +86,9 @@
                     }
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" href="/Admin/Profile">My Profile</a>
+            </li>
         </ul>
 
         <div class="tab-content" id="adminTabsContent">
@@ -155,6 +158,24 @@
                                                               asp-route-userId="@user.UserId" class="d-inline">
                                                             <button type="submit" class="btn btn-sm btn-warning">
                                                                 Ban
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    @if (user.IsFlagged)
+                                                    {
+                                                        <form method="post" asp-page-handler="UnflagUser"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                                Unflag
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <form method="post" asp-page-handler="FlagUser"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-warning">
+                                                                Flag
                                                             </button>
                                                         </form>
                                                     }

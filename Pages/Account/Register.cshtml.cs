@@ -47,8 +47,9 @@ public class RegisterModel : PageModel
         _context.UserLocationPreferences.Add(new UserLocationPreference
         {
             UserId = user.UserId,
+            ZipCode = Input.ZipCode,
             SearchRadiusMiles = Input.SearchRadiusMiles,
-            IsLocationHidden = Input.IsLocationHidden
+            IsLocationHidden = !Input.IsLocationHidden
         });
         _context.SaveChanges();
 
@@ -89,11 +90,15 @@ public class RegisterModel : PageModel
         [Display(Name = "Skill Summary")]
         public string? SkillSummary { get; set; }
 
+        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Enter a valid ZIP code (e.g. 12345 or 12345-6789).")]
+        [Display(Name = "ZIP Code")]
+        public string? ZipCode { get; set; }
+
         [Display(Name = "Search Radius (Miles)")]
         public decimal SearchRadiusMiles { get; set; } = 25;
 
-        [Display(Name = "Hide My Location")]
-        public bool IsLocationHidden { get; set; } = true;
+        [Display(Name = "Show General Area on Requests")]
+        public bool IsLocationHidden { get; set; } = false;
 
         [Display(Name = "Preferred Contact Method")]
         public string PreferredContactMethod { get; set; } = "Email";

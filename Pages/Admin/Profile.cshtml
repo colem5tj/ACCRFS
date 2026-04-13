@@ -1,0 +1,160 @@
+@page
+@model ACC_Demo.Pages.Admin.ProfileModel
+@{
+    ViewData["Title"] = "Admin Profile";
+}
+
+<div class="container mt-4" style="max-width: 800px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Admin Profile</h2>
+            <p class="text-muted">Manage your account information</p>
+        </div>
+        <a href="/Admin/Dashboard" class="btn btn-outline-secondary">← Back to Dashboard</a>
+    </div>
+
+    @if (Model.SuccessMessage != null)
+    {
+        <div class="alert alert-success">@Model.SuccessMessage</div>
+    }
+
+    @if (Model.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <!-- Account Info Summary -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Account Summary</h5>
+            <div class="row text-center">
+                <div class="col-6">
+                    <h4 class="text-primary">@Model.CurrentUser.CreatedAt.ToString("MMM yyyy")</h4>
+                    <small class="text-muted">Account Created</small>
+                </div>
+                <div class="col-6">
+                    <h4 class="text-primary">@(Model.CurrentUser.IsActive ? "Active" : "Inactive")</h4>
+                    <small class="text-muted">Status</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="post">
+        <!-- Account Information -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Account Information</h5>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label">Full Name *</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="@Model.CurrentUser.Email"
+                               disabled readonly />
+                        <small class="text-muted">Admin email is managed by the system and cannot be changed here.</small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pronouns" class="form-label">Pronouns</label>
+                        <input asp-for="Pronouns" class="form-control" placeholder="e.g. she/her, he/him, they/them" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mb-4">
+            <a href="/Admin/Dashboard" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+
+    <!-- Change Password -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title mb-0">Change Password</h5>
+                    <small class="text-muted">Update the password used to sign in.</small>
+                </div>
+                <button class="btn btn-outline-secondary btn-sm" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#changePasswordForm"
+                        aria-expanded="false">
+                    Change Password
+                </button>
+            </div>
+
+            @if (Model.PasswordSuccessMessage != null)
+            {
+                <div class="alert alert-success mt-3 mb-0">@Model.PasswordSuccessMessage</div>
+            }
+
+            <div class="collapse mt-3" id="changePasswordForm">
+                @if (Model.PasswordErrorMessage != null)
+                {
+                    <div class="alert alert-danger">@Model.PasswordErrorMessage</div>
+                }
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="mb-3">
+                        <label for="NewPassword" class="form-label">New Password</label>
+                        <input type="password" id="NewPassword" name="NewPassword"
+                               class="form-control" placeholder="At least 6 characters"
+                               autocomplete="new-password" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword"
+                               class="form-control" placeholder="Re-enter new password"
+                               autocomplete="new-password" />
+                        <div id="passwordMismatch" class="text-danger small mt-1" style="display:none;">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" id="changePasswordBtn" class="btn btn-primary">
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const newPw  = document.getElementById('NewPassword');
+            const confPw = document.getElementById('ConfirmPassword');
+            const msg    = document.getElementById('passwordMismatch');
+            const btn    = document.getElementById('changePasswordBtn');
+
+            function check() {
+                const mismatch = confPw.value.length > 0 && newPw.value !== confPw.value;
+                msg.style.display = mismatch ? 'block' : 'none';
+                btn.disabled = mismatch;
+            }
+
+            @if (Model.PasswordErrorMessage != null)
+            {
+                <text>
+                var el = document.getElementById('changePasswordForm');
+                if (el) new bootstrap.Collapse(el, { toggle: false }).show();
+                </text>
+            }
+
+            newPw.addEventListener('input', check);
+            confPw.addEventListener('input', check);
+        })();
+    </script>
+}

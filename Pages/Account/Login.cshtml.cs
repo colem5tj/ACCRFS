@@ -35,6 +35,12 @@ public class LoginModel : PageModel
             return Page();
         }
 
+        if (user.IsBanned)
+        {
+            ErrorMessage = "Your account has been suspended. Please contact support.";
+            return Page();
+        }
+
         var roleId = _context.UserRoles
             .Where(ur => ur.UserId == user.UserId)
             .Select(ur => ur.RoleId)
