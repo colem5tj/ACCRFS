@@ -16,6 +16,8 @@ namespace ACC_Demo.Pages.Member
         }
 
         public Request? Request { get; set; }
+        public double? CreatorLat { get; set; }
+        public double? CreatorLng { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -34,6 +36,18 @@ namespace ACC_Demo.Pages.Member
 
             if (Request.CreatedByUserId == userId)
                 return RedirectToPage("/Member/BrowseRequests");
+
+            var locPref = _db.UserLocationPreferences
+                .FirstOrDefault(l => l.UserId == Request.CreatedByUserId
+                                   && !l.IsLocationHidden
+                                   && l.ApproxLatitude != null
+                                   && l.ApproxLongitude != null);
+
+            if (locPref != null)
+            {
+                CreatorLat = (double)locPref.ApproxLatitude!.Value;
+                CreatorLng = (double)locPref.ApproxLongitude!.Value;
+            }
 
             return Page();
         }

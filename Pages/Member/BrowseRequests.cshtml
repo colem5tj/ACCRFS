@@ -92,14 +92,13 @@
                             </div>
 
                             <div class="d-flex gap-2">
-                                <a href="/Member/RequestDetails/@request.RequestId" class="btn btn-sm btn-outline-secondary">View Details</a>
                                 @if (request.CreatedByUserId == currentUserId)
                                 {
                                     <button class="btn btn-sm btn-secondary" disabled>Your Request</button>
                                 }
                                 else
                                 {
-                                    <a href="/Member/OfferHelp?id=@request.RequestId" class="btn btn-sm btn-primary">Offer Help</a>
+                                    <a href="/Member/OfferHelp?id=@request.RequestId" class="btn btn-sm btn-primary">Show More Details</a>
                                 }
                             </div>
                         </div>
