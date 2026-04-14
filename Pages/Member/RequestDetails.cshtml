@@ -67,8 +67,8 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
             (function () {
-                var lat = @Model.CreatorLat;
-                var lng = @Model.CreatorLng;
+                var lat = @Model.CreatorLat.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                var lng = @Model.CreatorLng.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 var map = L.map('requestMap', { scrollWheelZoom: false }).setView([lat, lng], 12);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -115,7 +115,7 @@ namespace ACC_Demo.Pages.Member
             locPref.ZipCode          = ZipCode;
             locPref.IsLocationHidden = !ShareLocation;
 
-            if (!string.IsNullOrWhiteSpace(ZipCode) && ZipCode != oldZip)
+            if (!string.IsNullOrWhiteSpace(ZipCode) && (ZipCode != oldZip || !locPref.ApproxLatitude.HasValue))
             {
                 var (lat, lng) = await GeocodeZipAsync(ZipCode);
                 if (lat.HasValue)
