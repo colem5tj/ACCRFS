@@ -17,7 +17,14 @@
             <div class="container">
 
                 <!-- ACC Logo + Brand Name -->
-                <a class="navbar-brand d-flex align-items-center gap-2" asp-page="/Index">
+                @{
+                    var logoRole = Context.Session.GetString("UserRole");
+                    var logoPage = logoRole == "Admin" ? "/Admin/Dashboard"
+                                 : logoRole == "Organization" ? "/Organization/Dashboard"
+                                 : logoRole == "Member" ? "/Member/Dashboard"
+                                 : "/Index";
+                }
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-page="@logoPage">
                     <img src="~/images/acc-logo.png"
                          alt="ACC Logo"
                          height="40"

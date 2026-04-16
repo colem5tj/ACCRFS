@@ -87,6 +87,16 @@
                 </button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="archive-tab" data-bs-toggle="tab"
+                        data-bs-target="#archive-panel" type="button" role="tab">
+                    Archive
+                    @if (Model.ArchivedUsers.Count > 0)
+                    {
+                        <span class="badge bg-secondary ms-1">@Model.ArchivedUsers.Count</span>
+                    }
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" href="/Admin/Profile">My Profile</a>
             </li>
         </ul>
@@ -134,6 +144,10 @@
                                             {
                                                 <span class="badge bg-secondary">Inactive</span>
                                             }
+                                            @if (user.IsSpecialAssistance)
+                                            {
+                                                <span class="badge bg-info text-dark ms-1">Special Assistance</span>
+                                            }
                                         </td>
                                         <td>
                                             @if (user.UserId == Model.CurrentUserId)
@@ -179,13 +193,31 @@
                                                             </button>
                                                         </form>
                                                     }
-                                                    <form method="post" asp-page-handler="DeleteUser"
+                                                    <form method="post" asp-page-handler="ArchiveUser"
                                                           asp-route-userId="@user.UserId" class="d-inline"
-                                                          onsubmit="return confirm('Permanently delete @user.FullName and all their data? This cannot be undone.');">
-                                                        <button type="submit" class="btn btn-sm btn-danger">
-                                                            Delete
+                                                          onsubmit="return confirm('Archive @user.FullName? Their profile will be moved to the Archive tab where it can be permanently deleted.');">
+                                                        <button type="submit" class="btn btn-sm btn-secondary">
+                                                            Archive
                                                         </button>
                                                     </form>
+                                                    @if (user.IsSpecialAssistance)
+                                                    {
+                                                        <form method="post" asp-page-handler="RevokeSpecialAssistance"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-info">
+                                                                Revoke Assistance
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <form method="post" asp-page-handler="GrantSpecialAssistance"
+                                                              asp-route-userId="@user.UserId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-info">
+                                                                Special Assistance
+                                                            </button>
+                                                        </form>
+                                                    }
                                                 </div>
                                             }
                                         </td>
@@ -632,6 +664,82 @@
                                                 {
                                                     <span class="text-muted small">—</span>
                                                 }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Tab 7: Archive ───────────────────────────────────────── -->
+            <div class="tab-pane fade" id="archive-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Archived Accounts</h5>
+                    <p class="text-muted small mb-3">
+                        Archived accounts are deactivated and hidden from all other views.
+                        Permanent deletion can only be done from here.
+                    </p>
+                    @if (Model.ArchivedUsers.Count == 0)
+                    {
+                        <p class="text-muted">No archived accounts.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Flags</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model.ArchivedUsers)
+                                    {
+                                        <tr>
+                                            <td>@user.FullName</td>
+                                            <td><small>@user.Email</small></td>
+                                            <td>@user.RoleName</td>
+                                            <td>
+                                                @if (user.IsBanned)
+                                                {
+                                                    <span class="badge bg-danger me-1">Banned</span>
+                                                }
+                                                @if (user.IsFlagged)
+                                                {
+                                                    <span class="badge bg-warning text-dark me-1">Flagged</span>
+                                                }
+                                                @if (user.IsSpecialAssistance)
+                                                {
+                                                    <span class="badge bg-info text-dark me-1">Special Assistance</span>
+                                                }
+                                                @if (!user.IsBanned && !user.IsFlagged && !user.IsSpecialAssistance)
+                                                {
+                                                    <span class="text-muted small">—</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="d-flex gap-1 flex-wrap">
+                                                    <form method="post" asp-page-handler="UnarchiveUser"
+                                                          asp-route-userId="@user.UserId" class="d-inline">
+                                                        <button type="submit" class="btn btn-sm btn-outline-success">
+                                                            Unarchive
+                                                        </button>
+                                                    </form>
+                                                    <form method="post" asp-page-handler="DeleteUser"
+                                                          asp-route-userId="@user.UserId" class="d-inline"
+                                                          onsubmit="return confirm('Permanently delete @user.FullName and ALL their data? This cannot be undone.');">
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            Delete Permanently
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                     }

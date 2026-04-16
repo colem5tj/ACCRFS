@@ -25,6 +25,7 @@ public class DashboardModel : PageModel
 
     // ── Tab data ──────────────────────────────────────────────────────────
     public List<UserVm> Users { get; set; } = new();
+    public List<UserVm> ArchivedUsers { get; set; } = new();
     public List<AdminReportVm> AdminReports { get; set; } = new();
     public List<UserVm> FlaggedUsersList { get; set; } = new();
     public List<RequestVm> AllRequests { get; set; } = new();
@@ -60,10 +61,11 @@ public class DashboardModel : PageModel
         PendingApprovals = _context.SkillVerifications.Count(v => !v.IsVerified);
         FlaggedUsers = _context.Users.Count(u => u.IsFlagged);
 
-        // ── User Management tab ────────────────────────────────────────
+        // ── User Management tab (excludes archived) ───────────────────
         Users = (from u in _context.Users
                  join ur in _context.UserRoles on u.UserId equals ur.UserId
                  join r in _context.Roles on ur.RoleId equals r.RoleId
+                 where !u.IsArchived
                  orderby u.FullName
                  select new UserVm
                  {
@@ -73,8 +75,28 @@ public class DashboardModel : PageModel
                      IsActive = u.IsActive,
                      IsBanned = u.IsBanned,
                      IsFlagged = u.IsFlagged,
+                     IsSpecialAssistance = u.IsSpecialAssistance,
                      RoleName = r.RoleName
                  }).ToList();
+
+        // ── Archive tab ────────────────────────────────────────────────
+        ArchivedUsers = (from u in _context.Users
+                         join ur in _context.UserRoles on u.UserId equals ur.UserId
+                         join r in _context.Roles on ur.RoleId equals r.RoleId
+                         where u.IsArchived
+                         orderby u.FullName
+                         select new UserVm
+                         {
+                             UserId = u.UserId,
+                             FullName = u.FullName,
+                             Email = u.Email,
+                             IsActive = u.IsActive,
+                             IsBanned = u.IsBanned,
+                             IsFlagged = u.IsFlagged,
+                             IsSpecialAssistance = u.IsSpecialAssistance,
+                             IsArchived = true,
+                             RoleName = r.RoleName
+                         }).ToList();
 
         // ── Reports tab ────────────────────────────────────────────────
         AdminReports = (from ar in _context.AdminReports
@@ -108,6 +130,7 @@ public class DashboardModel : PageModel
                                 IsActive = u.IsActive,
                                 IsBanned = u.IsBanned,
                                 IsFlagged = u.IsFlagged,
+                                IsSpecialAssistance = u.IsSpecialAssistance,
                                 RoleName = r.RoleName
                             }).ToList();
 
@@ -178,13 +201,41 @@ public class DashboardModel : PageModel
         return Page();
     }
 
-    // ── POST: Delete user (removes all dependent records first) ───────────
+    // ── POST: Archive user ────────────────────────────────────────────────
+    public IActionResult OnPostArchiveUser(int userId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var user = _context.Users.Find(userId);
+        if (user != null)
+        {
+            user.IsArchived = true;
+            user.IsActive = false;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
+    // ── POST: Unarchive user ──────────────────────────────────────────────
+    public IActionResult OnPostUnarchiveUser(int userId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var user = _context.Users.Find(userId);
+        if (user != null)
+        {
+            user.IsArchived = false;
+            user.IsActive = true;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
+    // ── POST: Delete user (only from archive; removes all dependent records) ─
     public IActionResult OnPostDeleteUser(int userId)
     {
         if (!IsAdmin()) return RedirectToPage("/Account/Login");
 
         var user = _context.Users.Find(userId);
-        if (user == null) return RedirectToPage();
+        if (user == null || !user.IsArchived) return RedirectToPage();
 
         // Collect transaction IDs touching this user (as requester or provider)
         var requestIds = _context.Requests
@@ -307,6 +358,32 @@ public class DashboardModel : PageModel
         return RedirectToPage();
     }
 
+    // ── POST: Grant special assistance ───────────────────────────────────
+    public IActionResult OnPostGrantSpecialAssistance(int userId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var user = _context.Users.Find(userId);
+        if (user != null)
+        {
+            user.IsSpecialAssistance = true;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
+    // ── POST: Revoke special assistance ──────────────────────────────────
+    public IActionResult OnPostRevokeSpecialAssistance(int userId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var user = _context.Users.Find(userId);
+        if (user != null)
+        {
+            user.IsSpecialAssistance = false;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
     // ── POST: Approve a held transaction (1-star review) ─────────────────
     public IActionResult OnPostApproveTransaction(int transactionId)
     {
@@ -369,6 +446,8 @@ public class DashboardModel : PageModel
         public bool IsActive { get; set; }
         public bool IsBanned { get; set; }
         public bool IsFlagged { get; set; }
+        public bool IsSpecialAssistance { get; set; }
+        public bool IsArchived { get; set; }
         public string RoleName { get; set; } = string.Empty;
     }
 
