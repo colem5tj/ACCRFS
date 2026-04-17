@@ -1,0 +1,107 @@
+@page
+@model ACC_Demo.Pages.Member.ChatModel
+@using Microsoft.Extensions.Localization
+@using ACC_Demo
+@inject IStringLocalizer<SharedResources> Localizer
+@{
+    ViewData["Title"] = "Chat";
+    var myId = HttpContext.Session.GetInt32("UserId") ?? 0;
+}
+
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">@Localizer["Sidebar_Navigation"]</h5>
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Member/Dashboard"      class="list-group-item list-group-item-action">@Localizer["Sidebar_Dashboard"]</a>
+                <a asp-page="/Member/BrowseRequests" class="list-group-item list-group-item-action">@Localizer["Sidebar_BrowseRequests"]</a>
+                <a asp-page="/Member/CreateRequest"  class="list-group-item list-group-item-action">@Localizer["Sidebar_PostRequest"]</a>
+                <a asp-page="/Member/MyRequests"     class="list-group-item list-group-item-action">@Localizer["Sidebar_MyActivity"]</a>
+                <a asp-page="/Member/Ledger"         class="list-group-item list-group-item-action">@Localizer["Sidebar_TimeLedger"]</a>
+                <a asp-page="/Member/Messages"       class="list-group-item list-group-item-action">Messages</a>
+                <a asp-page="/Member/Profile"        class="list-group-item list-group-item-action">@Localizer["Sidebar_Profile"]</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="card-soft p-0 d-flex flex-column" style="height: 70vh;">
+
+            <!-- Header -->
+            <div class="p-3 border-bottom d-flex align-items-center gap-2">
+                <a asp-page="/Member/Messages" class="btn btn-sm btn-outline-secondary">&larr; Back</a>
+                <h5 class="mb-0 ms-2 fw-bold">@(Model.OtherUser?.FullName ?? "Conversation")</h5>
+            </div>
+
+            <!-- Message thread -->
+            <div class="flex-grow-1 overflow-auto p-3" id="chatMessages">
+                @foreach (var msg in Model.Messages)
+                {
+                    bool isMe = msg.SenderId == myId;
+                    <div class="d-flex @(isMe ? "justify-content-end" : "justify-content-start") mb-2">
+                        <div class="px-3 py-2 rounded-4 @(isMe ? "bg-dark text-white" : "bg-light text-dark")"
+                             style="max-width: 70%;">
+                            <div style="font-size: 0.92rem;">@msg.Content</div>
+                            <div class="text-end mt-1" style="font-size: 0.72rem; opacity: 0.65;">
+                                @msg.CreatedAt.ToLocalTime().ToString("h:mm tt")
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Send form -->
+            <div class="p-3 border-top">
+                <form method="post" asp-route-withUserId="@Model.WithUserId">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+                    <div class="input-group">
+                        <textarea asp-for="NewMessage"
+                                  class="form-control"
+                                  rows="2"
+                                  placeholder="Type a message…"
+                                  maxlength="1500"></textarea>
+                        <button class="btn btn-dark" type="submit">Send</button>
+                    </div>
+                    <span asp-validation-for="NewMessage" class="text-danger small"></span>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    // Auto-scroll to bottom on load
+    (function () {
+        var chat = document.getElementById('chatMessages');
+        if (chat) chat.scrollTop = chat.scrollHeight;
+    })();
+
+    // Poll for new messages every 10 seconds
+    var lastMessageId = @(Model.Messages.Any() ? Model.Messages.Last().MessageId : 0);
+    var withUserId    = @Model.WithUserId;
+
+    setInterval(function () {
+        $.get('/Member/Chat?handler=Poll&withUserId=' + withUserId + '&after=' + lastMessageId,
+            function (data) {
+                if (data && data.messages && data.messages.length > 0) {
+                    data.messages.forEach(function (msg) {
+                        var isMe = msg.isMe;
+                        var safeContent = $('<div>').text(msg.content).html();
+                        var bubble = '<div class="d-flex ' + (isMe ? 'justify-content-end' : 'justify-content-start') + ' mb-2">'
+                            + '<div class="px-3 py-2 rounded-4 ' + (isMe ? 'bg-dark text-white' : 'bg-light text-dark') + '" style="max-width:70%">'
+                            + '<div style="font-size:0.92rem;">' + safeContent + '</div>'
+                            + '<div class="text-end mt-1" style="font-size:0.72rem;opacity:0.65">' + msg.time + '</div>'
+                            + '</div></div>';
+                        $('#chatMessages').append(bubble);
+                        lastMessageId = msg.messageId;
+                    });
+                    var chat = document.getElementById('chatMessages');
+                    chat.scrollTop = chat.scrollHeight;
+                }
+            });
+    }, 10000);
+</script>
+}

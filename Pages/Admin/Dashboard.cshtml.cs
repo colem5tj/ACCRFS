@@ -258,7 +258,7 @@ public class DashboardModel : PageModel
             _context.TimeLedgers.Where(l => txnIds.Contains(l.TransactionId) || l.UserId == userId));
 
         _context.Messages.RemoveRange(
-            _context.Messages.Where(m => txnIds.Contains(m.TransactionId)
+            _context.Messages.Where(m => (m.TransactionId.HasValue && txnIds.Contains(m.TransactionId.Value))
                                          || m.SenderId == userId || m.ReceiverId == userId));
 
         _context.Transactions.RemoveRange(

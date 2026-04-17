@@ -15,6 +15,26 @@
         <a href="/Member/CreateRequest" class="btn btn-primary">Create New Request</a>
     </div>
 
+    @if (Model.RecommendedRequests != null && Model.RecommendedRequests.Any())
+    {
+        <div class="card shadow-sm mb-4 border-success">
+            <div class="card-body">
+                <h5 class="fw-bold text-success mb-3">Recommended for You</h5>
+                @foreach (var req in Model.RecommendedRequests)
+                {
+                    <div class="border rounded p-3 mb-2 bg-light">
+                        <div class="fw-semibold">@req.Title</div>
+                        <div class="text-muted small">@req.Description</div>
+                        <div class="small text-muted">@req.HoursNeeded hrs needed</div>
+                        <div class="mt-2">
+                            <a href="/Member/OfferHelp?id=@req.Id" class="btn btn-sm btn-outline-dark">View Details</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
     <form method="get" class="card mb-4 border-0 shadow-sm">
         <div class="card-body">
             <div class="row g-3">

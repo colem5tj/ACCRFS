@@ -54,11 +54,19 @@
         </div>
     }
 
-    <form method="post" class="d-flex justify-content-end gap-2 mt-4">
-        <input type="hidden" asp-for="RequestItem!.RequestId" />
-        <button type="submit" asp-page-handler="Decline" class="btn btn-outline-secondary">Decline Request</button>
-        <button type="submit" asp-page-handler="Accept" class="btn btn-dark">Accept Request</button>
-    </form>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        @if (HttpContext.Session.GetInt32("UserId") != Model.RequestItem!.CreatedByUserId)
+        {
+            <a asp-page="/Member/Chat"
+               asp-route-withUserId="@Model.RequestItem.CreatedByUserId"
+               class="btn btn-outline-secondary">Message Requester</a>
+        }
+        <form method="post" class="d-flex gap-2">
+            <input type="hidden" asp-for="RequestItem!.RequestId" />
+            <button type="submit" asp-page-handler="Decline" class="btn btn-outline-secondary">Decline Request</button>
+            <button type="submit" asp-page-handler="Accept" class="btn btn-dark">Accept Request</button>
+        </form>
+    </div>
 </div>
 
 @if (Model.CreatorLat.HasValue)

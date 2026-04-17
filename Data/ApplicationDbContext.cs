@@ -109,7 +109,7 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(a => a.ReportedUserId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        // ── Message (two FKs to Users) ────────────────────────────────
+        // ── Message (two FKs to Users, optional FK to Transaction) ───
         modelBuilder.Entity<Message>()
             .HasOne(m => m.Sender)
             .WithMany()
@@ -121,6 +121,13 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(m => m.ReceiverId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Transaction)
+            .WithMany(t => t.Messages)
+            .HasForeignKey(m => m.TransactionId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
 
         // ── UserBlock (two FKs to Users) ──────────────────────────────
         modelBuilder.Entity<UserBlock>()

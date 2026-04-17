@@ -18,6 +18,13 @@
                 <a asp-page="/Member/CreateRequest" class="list-group-item list-group-item-action">@Localizer["Sidebar_PostRequest"]</a>
                 <a asp-page="/Member/MyRequests" class="list-group-item list-group-item-action">@Localizer["Sidebar_MyActivity"]</a>
                 <a asp-page="/Member/Ledger" class="list-group-item list-group-item-action">@Localizer["Sidebar_TimeLedger"]</a>
+                <a asp-page="/Member/Messages" class="list-group-item list-group-item-action">
+                    Messages
+                    @if (Model.UnreadDmCount > 0)
+                    {
+                        <span class="badge bg-danger ms-1">@Model.UnreadDmCount</span>
+                    }
+                </a>
                 <a asp-page="/Member/Profile" class="list-group-item list-group-item-action">@Localizer["Sidebar_Profile"]</a>
             </div>
         </div>
@@ -54,13 +61,44 @@
                 </div>
             }
         </div>
-        <div class="card-soft p-4">
+        <div class="card-soft p-4 mb-4">
             <h5 class="fw-bold mb-3">@Localizer["Dashboard_AcceptedCommitments"]</h5>
             @foreach (var item in Model.AcceptedTransactions)
             {
                 <div class="d-flex justify-content-between border-bottom py-2">
                     <span>@item.RequestTitle</span>
                     <span class="fw-semibold">@item.Hours hrs</span>
+                </div>
+            }
+        </div>
+
+        <div class="card-soft p-4">
+            <h5 class="fw-bold mb-2">FAQ Chatbot</h5>
+            <p class="text-muted small mb-3">
+                Ask a common question about hours, requests, volunteering, or your account.
+            </p>
+
+            <form method="post" asp-page-handler="Ask">
+                <div class="mb-2">
+                    <textarea asp-for="UserQuestion"
+                              id="faqQuestion"
+                              class="form-control"
+                              rows="3"
+                              maxlength="350"
+                              placeholder="Ask a question..."></textarea>
+                    <div class="d-flex justify-content-between mt-1">
+                        <span asp-validation-for="UserQuestion" class="text-danger small"></span>
+                        <small class="text-muted"><span id="charCount">0</span>/350</small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-dark">Ask</button>
+            </form>
+
+            @if (!string.IsNullOrWhiteSpace(Model.BotResponse))
+            {
+                <div class="mt-3 p-3 bg-light rounded border">
+                    <strong>Answer:</strong><br />
+                    @Model.BotResponse
                 </div>
             }
         </div>
@@ -82,3 +120,20 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.getElementById("faqQuestion");
+            const charCount = document.getElementById("charCount");
+            function updateCount() {
+                if (textarea && charCount) charCount.textContent = textarea.value.length;
+            }
+            if (textarea) {
+                textarea.addEventListener("input", updateCount);
+                updateCount();
+            }
+        });
+    </script>
+}
