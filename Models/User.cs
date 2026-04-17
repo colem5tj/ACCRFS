@@ -31,6 +31,8 @@ public class User
     public bool IsActive { get; set; } = true;
     public bool IsFlagged { get; set; } = false;
     public bool IsBanned { get; set; } = false;
+    public bool IsSpecialAssistance { get; set; } = false;
+    public bool IsArchived { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
