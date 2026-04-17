@@ -28,9 +28,36 @@
         <div class="card-soft p-0 d-flex flex-column" style="height: 70vh;">
 
             <!-- Header -->
-            <div class="p-3 border-bottom d-flex align-items-center gap-2">
-                <a asp-page="/Member/Messages" class="btn btn-sm btn-outline-secondary">&larr; Back</a>
-                <h5 class="mb-0 ms-2 fw-bold">@(Model.OtherUser?.FullName ?? "Conversation")</h5>
+            <div class="p-3 border-bottom">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <a asp-page="/Member/Messages" class="btn btn-sm btn-outline-secondary">&larr; Back</a>
+                        <h5 class="mb-0 ms-2 fw-bold">@(Model.OtherUser?.FullName ?? "Conversation")</h5>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#reportForm">
+                        Report
+                    </button>
+                </div>
+
+                <div class="collapse mt-2" id="reportForm">
+                    @if (Model.ReportSent)
+                    {
+                        <div class="alert alert-success py-2 mb-0">Report submitted. An admin will review this conversation.</div>
+                    }
+                    else
+                    {
+                        <form method="post" asp-page-handler="Report" asp-route-withUserId="@Model.WithUserId">
+                            @Html.AntiForgeryToken()
+                            <div class="input-group input-group-sm">
+                                <input asp-for="ReportReason" class="form-control"
+                                       placeholder="Briefly describe the reason for reporting..." />
+                                <button class="btn btn-danger" type="submit">Submit Report</button>
+                            </div>
+                            <span asp-validation-for="ReportReason" class="text-danger small"></span>
+                        </form>
+                    }
+                </div>
             </div>
 
             <!-- Message thread -->
@@ -52,11 +79,12 @@
 
             <!-- Send form -->
             <div class="p-3 border-top">
-                <form method="post" asp-route-withUserId="@Model.WithUserId">
+                <form method="post">
                     @Html.AntiForgeryToken()
+                    <input type="hidden" name="WithUserId" value="@Model.WithUserId" />
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
                     <div class="input-group">
-                        <textarea asp-for="NewMessage"
+                        <textarea name="NewMessage"
                                   class="form-control"
                                   rows="2"
                                   placeholder="Type a message…"

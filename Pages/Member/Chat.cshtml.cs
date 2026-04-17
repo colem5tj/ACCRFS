@@ -21,6 +21,23 @@ public class ChatModel : PageModel
     [BindProperty, Required, StringLength(1500, MinimumLength = 1)]
     public string NewMessage { get; set; } = string.Empty;
 
+    public string ReportReason { get; set; } = string.Empty;
+    public bool ReportSent { get; set; }
+
+    private static readonly HashSet<string> BannedWords = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "fuck", "shit", "ass", "asshole", "bitch", "cunt", "dick", "piss", "cock",
+        "bastard", "damn", "crap", "whore", "slut", "nigger", "nigga", "faggot",
+        "retard", "spic", "chink", "kike", "wetback", "tranny"
+    };
+
+    private static bool ContainsBannedWord(string text) =>
+        BannedWords.Any(w =>
+            System.Text.RegularExpressions.Regex.IsMatch(
+                text,
+                $@"\b{System.Text.RegularExpressions.Regex.Escape(w)}\b",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase));
+
     public IActionResult OnGet()
     {
         var userId = HttpContext.Session.GetInt32("UserId");
@@ -43,7 +60,6 @@ public class ChatModel : PageModel
             .OrderBy(m => m.CreatedAt)
             .ToList();
 
-        // Mark inbound unread messages as read
         var unread = Messages.Where(m => m.ReceiverId == uid && !m.IsRead).ToList();
         foreach (var m in unread)
             m.IsRead = true;
@@ -61,6 +77,13 @@ public class ChatModel : PageModel
 
         if (!ModelState.IsValid)
             return OnGet();
+
+        if (ContainsBannedWord(NewMessage))
+        {
+            ModelState.AddModelError(nameof(NewMessage),
+                "Your message contains language that is not allowed. Please revise and try again.");
+            return OnGet();
+        }
 
         bool isBlocked = _context.UserBlocks.Any(b =>
             (b.BlockerUserId == WithUserId && b.BlockedUserId == uid) ||
@@ -93,11 +116,54 @@ public class ChatModel : PageModel
             CreatedAt = DateTime.UtcNow
         });
 
-        _context.SaveChanges();
+        try
+        {
+            _context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError(string.Empty, $"Could not send message: {ex.InnerException?.Message ?? ex.Message}");
+            return OnGet();
+        }
+
         return RedirectToPage(new { WithUserId });
     }
 
-    // AJAX polling handler: returns new messages since the given message ID
+    public IActionResult OnPostReport()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return RedirectToPage("/Account/Login");
+        int uid = userId.Value;
+
+        ReportReason = Request.Form["ReportReason"].ToString().Trim();
+
+        if (WithUserId == 0 || string.IsNullOrWhiteSpace(ReportReason))
+        {
+            ModelState.AddModelError(nameof(ReportReason), "Please provide a reason for the report.");
+            return OnGet();
+        }
+
+        bool alreadyReported = _context.AdminReports.Any(r =>
+            r.ReporterId == uid &&
+            r.ReportedUserId == WithUserId &&
+            r.Reason.StartsWith("[Chat Report]"));
+
+        if (!alreadyReported)
+        {
+            _context.AdminReports.Add(new AdminReport
+            {
+                ReporterId     = uid,
+                ReportedUserId = WithUserId,
+                Reason         = $"[Chat Report] {ReportReason.Trim()}",
+                CreatedAt      = DateTime.UtcNow
+            });
+            _context.SaveChanges();
+        }
+
+        ReportSent = true;
+        return OnGet();
+    }
+
     public IActionResult OnGetPoll(int withUserId, int after)
     {
         var userId = HttpContext.Session.GetInt32("UserId");

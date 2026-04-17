@@ -81,8 +81,7 @@ namespace ACC_Demo.Pages.Member
                 await _db.SaveChangesAsync();
             }
 
-            TempData["Success"] = "Your offer has been sent!";
-            return RedirectToPage("/Member/BrowseRequests");
+            return RedirectToPage("/Member/Chat", new { withUserId = request.CreatedByUserId });
         }
     }
 }

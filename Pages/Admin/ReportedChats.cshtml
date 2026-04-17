@@ -1,0 +1,63 @@
+@page
+@model ACC_Demo.Pages.Admin.ReportedChatsModel
+@{
+    ViewData["Title"] = "Reported Chats";
+}
+
+<div class="container mt-4" style="max-width: 900px;">
+    <a asp-page="/Admin/Dashboard" class="btn btn-secondary mb-4">&larr; Back to Dashboard</a>
+    <h2 class="fw-bold mb-1">Reported Chats</h2>
+    <p class="text-muted mb-4">Only conversations that have been reported by members are shown here.</p>
+
+    @if (!Model.Reports.Any())
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="card-body text-center py-5">
+                <h5 class="text-muted">No reported chats</h5>
+                <p class="text-muted">No conversations have been reported yet.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var report in Model.Reports)
+        {
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-danger bg-opacity-10 d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fw-semibold">@report.ReporterName</span>
+                        <span class="text-muted"> reported their conversation with </span>
+                        <span class="fw-semibold">@report.ReportedName</span>
+                    </div>
+                    <small class="text-muted">@report.ReportedAt.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</small>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 p-2 bg-light rounded border-start border-danger border-3">
+                        <small class="text-uppercase text-muted fw-semibold">Reason</small>
+                        <div>@report.Reason</div>
+                    </div>
+
+                    @if (!report.Messages.Any())
+                    {
+                        <p class="text-muted small">No messages found between these users.</p>
+                    }
+                    else
+                    {
+                        <div class="border rounded p-3" style="max-height: 400px; overflow-y: auto;">
+                            @foreach (var msg in report.Messages)
+                            {
+                                bool isReporter = msg.SenderId == report.Messages
+                                    .FirstOrDefault(m => m.Sender?.FullName == report.ReporterName)?.SenderId;
+                                <div class="mb-2">
+                                    <span class="fw-semibold small">@msg.Sender?.FullName</span>
+                                    <span class="text-muted small ms-2">@msg.CreatedAt.ToLocalTime().ToString("MMM d, h:mm tt")</span>
+                                    <div class="ps-2 border-start border-2">@msg.Content</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
