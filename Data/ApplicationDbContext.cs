@@ -217,5 +217,12 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(r => r.AcceptedProviderId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        // ── Parent/Child account link (self-referencing) ──────────────
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.ChildAccounts)
+            .WithOne(u => u.ParentUser)
+            .HasForeignKey(u => u.ParentUserId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

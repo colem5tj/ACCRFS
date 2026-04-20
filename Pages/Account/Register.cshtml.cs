@@ -2,6 +2,7 @@ using ACC_Demo.Data;
 using ACC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace ACC_Demo.Pages.Account;
@@ -20,10 +21,35 @@ public class RegisterModel : PageModel
 
     public void OnGet() { }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
             return Page();
+
+        if (Input.IsMinor)
+        {
+            if (string.IsNullOrWhiteSpace(Input.ParentEmail))
+            {
+                ModelState.AddModelError("Input.ParentEmail", "A parent/guardian email is required.");
+                return Page();
+            }
+
+            var parent = await _context.Users.FirstOrDefaultAsync(u => u.Email == Input.ParentEmail);
+
+            if (parent == null)
+            {
+                ModelState.AddModelError("Input.ParentEmail",
+                    "No adult account was found with that email. Please ask your parent/guardian to register first.");
+                return Page();
+            }
+
+            if (parent.IsMinor)
+            {
+                ModelState.AddModelError("Input.ParentEmail",
+                    "That email belongs to a minor account and cannot be used as a guardian.");
+                return Page();
+            }
+        }
 
         var user = new User
         {
@@ -37,11 +63,18 @@ public class RegisterModel : PageModel
             Bio = Input.Bio,
             ParticipationPlan = Input.ParticipationPlan,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(Input.Password),
-            CurrentBalance = 0
+            CurrentBalance = 0,
+            IsMinor = Input.IsMinor
         };
 
+        if (Input.IsMinor && !string.IsNullOrWhiteSpace(Input.ParentEmail))
+        {
+            var parent = await _context.Users.FirstOrDefaultAsync(u => u.Email == Input.ParentEmail);
+            user.ParentUserId = parent!.UserId;
+        }
+
         _context.Users.Add(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         _context.UserRoles.Add(new UserRole { UserId = user.UserId, RoleId = 2 });
         _context.UserLocationPreferences.Add(new UserLocationPreference
@@ -51,7 +84,7 @@ public class RegisterModel : PageModel
             SearchRadiusMiles = Input.SearchRadiusMiles,
             IsLocationHidden = !Input.IsLocationHidden
         });
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         HttpContext.Session.SetInt32("UserId", user.UserId);
         HttpContext.Session.SetString("UserName", user.FullName);
@@ -105,5 +138,11 @@ public class RegisterModel : PageModel
 
         [Required, DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+
+        public bool IsMinor { get; set; } = false;
+
+        [EmailAddress]
+        [Display(Name = "Parent/Guardian Email")]
+        public string? ParentEmail { get; set; }
     }
 }
