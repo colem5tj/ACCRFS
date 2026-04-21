@@ -4,6 +4,7 @@ using ACC_Demo.Data;
 using ACC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACC_Demo.Pages.Member
 {
@@ -33,7 +34,10 @@ namespace ACC_Demo.Pages.Member
 
         public async Task OnGetAsync()
         {
-            var query = _db.Requests.AsQueryable();
+            var query = _db.Requests
+                .Include(r => r.CreatedByUser)
+                .Include(r => r.Organization)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(SearchTerm))
                 query = query.Where(r => r.Title.Contains(SearchTerm) || r.Description.Contains(SearchTerm));

@@ -1,0 +1,223 @@
+@page
+@model ACC_Demo.Pages.Organization.ProfileModel
+@{
+    ViewData["Title"] = "Organization Profile";
+}
+
+@if (Model.LocationLat.HasValue)
+{
+    @section Styles {
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    }
+}
+
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">Navigation</h5>
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Organization/Dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+                <a asp-page="/Organization/PostOpportunity" class="list-group-item list-group-item-action">Post Request</a>
+                <a asp-page="/Organization/MyActivity" class="list-group-item list-group-item-action">My Activity</a>
+                <a asp-page="/Organization/Ledger" class="list-group-item list-group-item-action">Time Ledger</a>
+                <a asp-page="/Organization/Messages" class="list-group-item list-group-item-action">Messages</a>
+                <a asp-page="/Organization/Profile" class="list-group-item list-group-item-action active">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="container" style="max-width: 800px;">
+
+            @if (Model.SuccessMessage != null)
+            {
+                <div class="alert alert-success">@Model.SuccessMessage</div>
+            }
+            @if (Model.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@Model.ErrorMessage</div>
+            }
+
+            <!-- Account Stats -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Account Stats</h5>
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <h4 class="text-primary">@Model.CurrentUser.CreatedAt.ToString("MMM yyyy")</h4>
+                            <small class="text-muted">Member Since</small>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="text-primary">@(Model.CurrentUser.IsActive ? "Active" : "Inactive")</h4>
+                            <small class="text-muted">Status</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post">
+                <!-- Account Information -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Account Information</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="OrgName" class="form-label">Organization Name *</label>
+                                <input asp-for="OrgName" class="form-control" />
+                                <span asp-validation-for="OrgName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">Email *</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">About the Organization</h5>
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label">Description</label>
+                            <textarea asp-for="Bio" class="form-control" rows="4"
+                                      placeholder="Tell the community about your organization..."></textarea>
+                            <small class="text-muted">Max 1000 characters</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Location</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="ZipCode" class="form-label">ZIP Code</label>
+                                <input asp-for="ZipCode" class="form-control" placeholder="e.g. 32601" maxlength="5" />
+                                <div class="form-text">Your exact address is never stored or shown.</div>
+                                <span asp-validation-for="ZipCode" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-end pb-1">
+                                <div class="form-check">
+                                    <input asp-for="ShareLocation" class="form-check-input" type="checkbox" />
+                                    <label asp-for="ShareLocation" class="form-check-label">
+                                        Show my general area on the community map
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.LocationLat.HasValue)
+                        {
+                            <p class="text-muted small mb-2">Preview — this is how your location appears to other members:</p>
+                            <div id="profileMap" style="height: 220px; border-radius: 8px;"></div>
+                        }
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mb-4">
+                    <a asp-page="/Organization/Dashboard" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+
+            <!-- Change Password -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-0">Change Password</h5>
+                            <small class="text-muted">Update the password used to sign in.</small>
+                        </div>
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#changePasswordForm"
+                                aria-expanded="false">
+                            Change Password
+                        </button>
+                    </div>
+
+                    @if (Model.PasswordSuccessMessage != null)
+                    {
+                        <div class="alert alert-success mt-3 mb-0">@Model.PasswordSuccessMessage</div>
+                    }
+
+                    <div class="collapse mt-3" id="changePasswordForm">
+                        @if (Model.PasswordErrorMessage != null)
+                        {
+                            <div class="alert alert-danger">@Model.PasswordErrorMessage</div>
+                        }
+                        <form method="post" asp-page-handler="ChangePassword">
+                            <div class="mb-3">
+                                <label for="NewPassword" class="form-label">New Password</label>
+                                <input type="password" id="NewPassword" name="NewPassword"
+                                       class="form-control" placeholder="At least 6 characters"
+                                       autocomplete="new-password" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                                <input type="password" id="ConfirmPassword" name="ConfirmPassword"
+                                       class="form-control" placeholder="Re-enter new password"
+                                       autocomplete="new-password" />
+                                <div id="passwordMismatch" class="text-danger small mt-1" style="display:none;">
+                                    Passwords do not match.
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" id="changePasswordBtn" class="btn btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @if (Model.LocationLat.HasValue)
+    {
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+            (function () {
+                var lat = @Model.LocationLat.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                var lng = @Model.LocationLng.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                var map = L.map('profileMap', { scrollWheelZoom: false }).setView([lat, lng], 12);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                L.circle([lat, lng], { radius: 2000, color: '#4a7c59', fillColor: '#4a7c59', fillOpacity: 0.25, weight: 2 }).addTo(map);
+            })();
+        </script>
+    }
+    <script>
+        (function () {
+            const newPw  = document.getElementById('NewPassword');
+            const confPw = document.getElementById('ConfirmPassword');
+            const msg    = document.getElementById('passwordMismatch');
+            const btn    = document.getElementById('changePasswordBtn');
+            function check() {
+                const mismatch = confPw.value.length > 0 && newPw.value !== confPw.value;
+                msg.style.display = mismatch ? 'block' : 'none';
+                btn.disabled = mismatch;
+            }
+            @if (Model.PasswordErrorMessage != null)
+            {
+                <text>
+                var el = document.getElementById('changePasswordForm');
+                if (el) new bootstrap.Collapse(el, { toggle: false }).show();
+                </text>
+            }
+            newPw.addEventListener('input', check);
+            confPw.addEventListener('input', check);
+        })();
+    </script>
+}

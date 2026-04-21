@@ -37,9 +37,10 @@ namespace ACC_Demo.Pages.Member
             if (Request.CreatedByUserId == userId)
                 return RedirectToPage("/Member/BrowseRequests");
 
+            bool isOrgRequest = Request.OrganizationId != null;
             var locPref = _db.UserLocationPreferences
                 .FirstOrDefault(l => l.UserId == Request.CreatedByUserId
-                                   && !l.IsLocationHidden
+                                   && (isOrgRequest || !l.IsLocationHidden)
                                    && l.ApproxLatitude != null
                                    && l.ApproxLongitude != null);
 

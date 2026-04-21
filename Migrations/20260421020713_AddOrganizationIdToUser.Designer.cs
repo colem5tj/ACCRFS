@@ -4,6 +4,7 @@ using ACC_Demo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ACC_Demo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260421020713_AddOrganizationIdToUser")]
+    partial class AddOrganizationIdToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -342,9 +345,6 @@ namespace ACC_Demo.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("VolunteersNeeded")
-                        .HasColumnType("int");
-
                     b.HasKey("RequestId");
 
                     b.HasIndex("AcceptedProviderId");
@@ -608,6 +608,10 @@ namespace ACC_Demo.Migrations
 
                     b.Property<int?>("ParentUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ParticipationPlan")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()

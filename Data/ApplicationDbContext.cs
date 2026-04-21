@@ -224,5 +224,12 @@ public class ApplicationDbContext : DbContext
             .WithOne(u => u.ParentUser)
             .HasForeignKey(u => u.ParentUserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        // ── User → Organization (org account link) ────────────────────
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Organization)
+            .WithMany()
+            .HasForeignKey(u => u.OrganizationId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

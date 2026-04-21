@@ -29,7 +29,10 @@ namespace ACC_Demo.Pages.Member
                 .FirstOrDefaultAsync(r => r.RequestId == requestId && r.CreatedByUserId == userId);
 
             if (Request == null)
-                return RedirectToPage("/Member/MyRequests");
+            {
+                bool isOrg = HttpContext.Session.GetString("UserRole") == "OrganizationRep";
+                return RedirectToPage(isOrg ? "/Organization/MyActivity" : "/Member/MyRequests");
+            }
 
             Offers = await _db.Transactions
                 .Include(t => t.Provider)
@@ -59,7 +62,7 @@ namespace ACC_Demo.Pages.Member
             await _db.SaveChangesAsync();
 
             TempData["Success"] = "Offer accepted! The member has been matched to your request.";
-            return RedirectToPage("/Member/ManageOffers", new { requestId });
+            return RedirectToPage("/Member/ManageOffers", new { requestId = requestId });
         }
     }
 }

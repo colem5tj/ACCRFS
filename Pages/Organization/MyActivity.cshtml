@@ -1,0 +1,77 @@
+@page
+@model ACC_Demo.Pages.Organization.MyActivityModel
+@{
+    ViewData["Title"] = "My Activity";
+}
+
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">Navigation</h5>
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Organization/Dashboard" class="list-group-item list-group-item-action">Dashboard</a>
+                <a asp-page="/Organization/PostOpportunity" class="list-group-item list-group-item-action">Post Request</a>
+                <a asp-page="/Organization/MyActivity" class="list-group-item list-group-item-action active">My Activity</a>
+                <a asp-page="/Organization/Ledger" class="list-group-item list-group-item-action">Time Ledger</a>
+                <a asp-page="/Organization/Messages" class="list-group-item list-group-item-action">Messages</a>
+                <a asp-page="/Organization/Profile" class="list-group-item list-group-item-action">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="card-soft p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold mb-0">All Requests</h5>
+                <a asp-page="/Organization/PostOpportunity" class="btn btn-dark btn-sm">+ Post New Request</a>
+            </div>
+
+            @if (Model.Requests.Any())
+            {
+                @foreach (var r in Model.Requests)
+                {
+                    <div class="border rounded-4 p-3 mb-3 bg-white">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-semibold">@r.Title</div>
+                                <div class="text-muted small mt-1">@r.Description</div>
+                                <div class="small text-muted mt-2">
+                                    @r.HoursNeeded hrs &bull; @r.UrgencyLevel priority
+                                    @if (r.ScheduledDate.HasValue)
+                                    {
+                                        <span>&bull; @r.ScheduledDate.Value.ToString("MMM d, yyyy")</span>
+                                    }
+                                    &bull; Posted @((DateTime.UtcNow - r.CreatedAt).Days > 0
+                                        ? $"{(DateTime.UtcNow - r.CreatedAt).Days}d ago"
+                                        : $"{(DateTime.UtcNow - r.CreatedAt).Hours}h ago")
+                                </div>
+                            </div>
+                            <div class="text-end ms-3">
+                                <span class="status-pill status-open d-block mb-2">@r.Status</span>
+                                @if (r.OfferCount > 0)
+                                {
+                                    <a asp-page="/Member/ManageOffers" asp-route-requestId="@r.RequestId"
+                                       class="badge bg-success text-decoration-none d-block mb-1">
+                                        @r.OfferCount offer@(r.OfferCount == 1 ? "" : "s") — Manage
+                                    </a>
+                                }
+                                @if (r.AcceptedTransactionId.HasValue && r.Status == "Matched")
+                                {
+                                    <a asp-page="/Member/ApproveHours" asp-route-transactionId="@r.AcceptedTransactionId"
+                                       class="btn btn-dark btn-sm mt-1">Approve Hours</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <p>You haven't posted any requests yet.</p>
+                    <a asp-page="/Organization/PostOpportunity" class="btn btn-dark">Post Your First Request</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

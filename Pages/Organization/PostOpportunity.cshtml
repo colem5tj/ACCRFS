@@ -1,4 +1,108 @@
-﻿@page
+@page
 @model ACC_Demo.Pages.Organization.PostOpportunityModel
 @{
+    ViewData["Title"] = "Post a Request";
+}
+
+<div class="container mt-4" style="max-width: 900px;">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            <a asp-page="/Organization/Dashboard" class="btn btn-secondary mb-2">← Back to Dashboard</a>
+            <small class="text-muted d-block">New Request</small>
+        </div>
+    </div>
+
+    <h2 class="mb-2">Post a Request</h2>
+    <p class="text-muted mb-4">Describe the help your organization needs and community members will be able to offer assistance.</p>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Request Details</h5>
+                        <p class="text-muted small">All fields marked with an asterisk are required.</p>
+
+                        <div class="mb-4">
+                            <h6 class="mb-2">Identity & Scope</h6>
+                            <div class="mb-3">
+                                <label asp-for="RequestTitle" class="form-label">Request Title *</label>
+                                <input asp-for="RequestTitle" class="form-control" placeholder="e.g., Volunteers needed for food pantry" />
+                                <span asp-validation-for="RequestTitle" class="text-danger small"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="DetailedDescription" class="form-label">Detailed Description *</label>
+                                <textarea asp-for="DetailedDescription" class="form-control" rows="5"
+                                          placeholder="Describe what help is needed, who it benefits, and any requirements..."></textarea>
+                                <span asp-validation-for="DetailedDescription" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6 class="mb-2">Skills & Availability</h6>
+                            <div class="mb-3">
+                                <label asp-for="PrimarySkill" class="form-label">Primary Skill Needed</label>
+                                <input asp-for="PrimarySkill" class="form-control" placeholder="e.g., Cooking, Transportation, Event setup" />
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="DesiredStartDate" class="form-label">Desired Start Date *</label>
+                                <input asp-for="DesiredStartDate" type="date" class="form-control" />
+                                <span asp-validation-for="DesiredStartDate" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h6 class="mb-2">Urgency & Effort</h6>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label asp-for="EstimatedHours" class="form-label">Estimated Hours *</label>
+                                    <input asp-for="EstimatedHours" type="number" class="form-control" min="1" max="100" />
+                                    <small class="text-muted">Approximate hours needed from each volunteer.</small>
+                                    <span asp-validation-for="EstimatedHours" class="text-danger small"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="VolunteersNeeded" class="form-label">Volunteers Needed *</label>
+                                    <input asp-for="VolunteersNeeded" type="number" class="form-control" min="1" max="500" />
+                                    <small class="text-muted">How many people are needed?</small>
+                                    <span asp-validation-for="VolunteersNeeded" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input asp-for="MarkAsUrgent" class="form-check-input" type="checkbox" />
+                                <label asp-for="MarkAsUrgent" class="form-check-label">
+                                    Mark as Urgent
+                                    <small class="d-block text-muted">Request immediate attention</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <small class="text-muted">By submitting, you agree to our Community Guidelines.</small>
+                    <div>
+                        <a asp-page="/Organization/Dashboard" class="btn btn-outline-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Post Request →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card mb-3 border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">Tips for a good request</h6>
+                        <ul class="small mb-0">
+                            <li>Be specific about what's needed and when</li>
+                            <li>Include any special requirements or skills</li>
+                            <li>Describe the impact this help will have</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
