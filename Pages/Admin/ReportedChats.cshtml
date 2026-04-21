@@ -23,10 +23,10 @@
         @foreach (var report in Model.Reports)
         {
             <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-danger bg-opacity-10 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-danger bg-opacity-10 d-flex justify-content-between align-items-center text-dark">
                     <div>
                         <span class="fw-semibold">@report.ReporterName</span>
-                        <span class="text-muted"> reported their conversation with </span>
+                        <span> reported their conversation with </span>
                         <span class="fw-semibold">@report.ReportedName</span>
                     </div>
                     <small class="text-muted">@report.ReportedAt.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</small>
@@ -56,6 +56,14 @@
                             }
                         </div>
                     }
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-end">
+                    <form method="post" asp-page-handler="Dismiss" asp-route-reportId="@report.AdminReportId">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                onclick="return confirm('Remove this report?')">
+                            Dismiss Report
+                        </button>
+                    </form>
                 </div>
             </div>
         }

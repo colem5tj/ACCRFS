@@ -32,6 +32,7 @@ public class DashboardModel : PageModel
     public List<OfferVm> OfferActivity { get; set; } = new();
     public List<FeedbackVm> AllFeedback { get; set; } = new();
     public int LowRatingCount { get; set; }
+    public List<TransactionVm> AllTransactions { get; set; } = new();
 
     // ── Auth helper ───────────────────────────────────────────────────────
     private bool IsAdmin()
@@ -198,6 +199,26 @@ public class DashboardModel : PageModel
         // Badge only counts rows still awaiting admin action
         LowRatingCount = AllFeedback.Count(f => f.Rating == 1 && f.TransactionStatus == "PendingReview");
 
+        // ── Transactions tab ───────────────────────────────────────────
+        AllTransactions = (from t in _context.Transactions
+                           join req in _context.Requests on t.RequestId equals req.RequestId
+                           join provider in _context.Users on t.ProviderId equals provider.UserId
+                           join receiver in _context.Users on t.ReceiverId equals receiver.UserId
+                           orderby t.CreatedAt descending
+                           select new TransactionVm
+                           {
+                               TransactionId    = t.TransactionId,
+                               RequestTitle     = req.Title,
+                               ProviderName     = provider.FullName,
+                               ProviderEmail    = provider.Email,
+                               ReceiverName     = receiver.FullName,
+                               ReceiverEmail    = receiver.Email,
+                               HoursTransferred = t.HoursTransferred,
+                               Status           = t.Status,
+                               CreatedAt        = t.CreatedAt,
+                               ConfirmedAt      = t.ConfirmedAt
+                           }).ToList();
+
         return Page();
     }
 
@@ -301,6 +322,19 @@ public class DashboardModel : PageModel
         _context.Users.Remove(user);
         _context.SaveChanges();
 
+        return RedirectToPage();
+    }
+
+    // ── POST: Dismiss report ──────────────────────────────────────────────
+    public IActionResult OnPostDismissReport(int reportId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var report = _context.AdminReports.Find(reportId);
+        if (report != null)
+        {
+            _context.AdminReports.Remove(report);
+            _context.SaveChanges();
+        }
         return RedirectToPage();
     }
 
@@ -504,5 +538,19 @@ public class DashboardModel : PageModel
         public bool IsEfficient { get; set; }
         public bool IsOnTime { get; set; }
         public bool IsHighlySkilled { get; set; }
+    }
+
+    public class TransactionVm
+    {
+        public int TransactionId { get; set; }
+        public string RequestTitle { get; set; } = string.Empty;
+        public string ProviderName { get; set; } = string.Empty;
+        public string ProviderEmail { get; set; } = string.Empty;
+        public string ReceiverName { get; set; } = string.Empty;
+        public string ReceiverEmail { get; set; } = string.Empty;
+        public decimal HoursTransferred { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ConfirmedAt { get; set; }
     }
 }

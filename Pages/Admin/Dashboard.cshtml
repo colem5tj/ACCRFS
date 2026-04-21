@@ -80,6 +80,16 @@
                 </button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="transactions-tab" data-bs-toggle="tab"
+                        data-bs-target="#transactions-panel" type="button" role="tab">
+                    Transactions
+                    @if (Model.AllTransactions.Count > 0)
+                    {
+                        <span class="badge bg-secondary ms-1">@Model.AllTransactions.Count</span>
+                    }
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="feedback-tab" data-bs-toggle="tab"
                         data-bs-target="#feedback-panel" type="button" role="tab">
                     Feedback
@@ -293,6 +303,13 @@
                                                 {
                                                     <span class="text-muted small">Already flagged</span>
                                                 }
+                                                <form method="post" asp-page-handler="DismissReport"
+                                                      asp-route-reportId="@report.AdminReportId" class="d-inline ms-1">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                            onclick="return confirm('Remove this report?')">
+                                                        Dismiss
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     }
@@ -547,7 +564,73 @@
                 </div>
             </div>
 
-            <!-- ── Tab 6: Feedback ──────────────────────────────────────── -->
+            <!-- ── Tab 6: Transactions ─────────────────────────────────────── -->
+            <div class="tab-pane fade" id="transactions-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Transaction History</h5>
+                    @if (Model.AllTransactions.Count == 0)
+                    {
+                        <p class="text-muted">No transactions have been recorded yet.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Request</th>
+                                        <th>Provider (gave hours)</th>
+                                        <th>Receiver (got hours)</th>
+                                        <th>Hours</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Confirmed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var t in Model.AllTransactions)
+                                    {
+                                        <tr>
+                                            <td class="text-muted small">@t.TransactionId</td>
+                                            <td>@t.RequestTitle</td>
+                                            <td>
+                                                @t.ProviderName<br />
+                                                <small class="text-muted">@t.ProviderEmail</small>
+                                            </td>
+                                            <td>
+                                                @t.ReceiverName<br />
+                                                <small class="text-muted">@t.ReceiverEmail</small>
+                                            </td>
+                                            <td>@t.HoursTransferred</td>
+                                            <td>
+                                                @{
+                                                    var badgeClass = t.Status switch
+                                                    {
+                                                        "Approved"      => "bg-success",
+                                                        "Completed"     => "bg-success",
+                                                        "PendingReview" => "bg-warning text-dark",
+                                                        "Pending"       => "bg-warning text-dark",
+                                                        "Rejected"      => "bg-danger",
+                                                        _               => "bg-secondary"
+                                                    };
+                                                }
+                                                <span class="badge @badgeClass">@t.Status</span>
+                                            </td>
+                                            <td class="small text-nowrap">@t.CreatedAt.ToLocalTime().ToString("MM/dd/yyyy h:mm tt")</td>
+                                            <td class="small text-nowrap">
+                                                @(t.ConfirmedAt.HasValue ? t.ConfirmedAt.Value.ToLocalTime().ToString("MM/dd/yyyy h:mm tt") : "—")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- ── Tab 7: Feedback ──────────────────────────────────────── -->
             <div class="tab-pane fade" id="feedback-panel" role="tabpanel">
 
                 @if (Model.LowRatingCount > 0)
