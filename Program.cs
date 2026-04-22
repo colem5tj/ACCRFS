@@ -27,11 +27,16 @@ builder.Services.AddHostedService<AllocationBackgroundService>();
 
 var app = builder.Build();
 
-// ?? Database migration + admin seed 
+// ?? Database migration + admin seed
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+    try { db.Database.Migrate(); }
+    catch (Exception ex)
+    {
+        var startupLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        startupLogger.LogError(ex, "Database migration failed: {Message}", ex.Message);
+    }
 
     // Seed admin account if it doesn't exist
     const string adminEmail = "alachuacommunitycollective@gmail.com";
