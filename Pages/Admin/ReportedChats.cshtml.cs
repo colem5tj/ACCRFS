@@ -23,6 +23,18 @@ public class ReportedChatsModel : PageModel
                 select ur).Any();
     }
 
+    public IActionResult OnPostDismiss(int reportId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Index");
+        var report = _context.AdminReports.Find(reportId);
+        if (report != null)
+        {
+            _context.AdminReports.Remove(report);
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
     public IActionResult OnGet()
     {
         if (!IsAdmin()) return RedirectToPage("/Index");

@@ -82,7 +82,7 @@ namespace ACC_Demo.Pages.Member
                 await _db.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Member/Chat", new { withUserId = request.CreatedByUserId });
+            return RedirectToPage("/Member/Dashboard");
         }
     }
 }

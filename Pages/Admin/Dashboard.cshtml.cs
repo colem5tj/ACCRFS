@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ACC_Demo.Data;
+using ACC_Demo.Models;
 
 namespace ACC_Demo.Pages.Admin;
 
@@ -33,6 +34,16 @@ public class DashboardModel : PageModel
     public List<FeedbackVm> AllFeedback { get; set; } = new();
     public int LowRatingCount { get; set; }
     public List<TransactionVm> AllTransactions { get; set; } = new();
+    public List<AllocationVm> Allocations { get; set; } = new();
+    public List<UserVm> SpecialAssistanceUsers { get; set; } = new();
+    public List<OrganizationVm> OrganizationsList { get; set; } = new();
+
+    // ── Bind properties for create-allocation form ────────────────────────
+    [BindProperty] public int? NewAllocationUserId { get; set; }
+    [BindProperty] public int? NewAllocationOrgId { get; set; }
+    [BindProperty] public decimal NewAllocationHours { get; set; }
+    [BindProperty] public string NewAllocationPeriod { get; set; } = "Weekly";
+    [BindProperty] public string? NewAllocationNotes { get; set; }
 
     // ── Auth helper ───────────────────────────────────────────────────────
     private bool IsAdmin()
@@ -219,6 +230,47 @@ public class DashboardModel : PageModel
                                ConfirmedAt      = t.ConfirmedAt
                            }).ToList();
 
+        // ── Allocations tab ────────────────────────────────────────────
+        Allocations = (from a in _context.HourAllocations
+                       orderby a.IsActive descending, a.CreatedAt descending
+                       select new AllocationVm
+                       {
+                           HourAllocationId  = a.HourAllocationId,
+                           RecipientName     = a.UserId != null
+                               ? _context.Users.Where(u => u.UserId == a.UserId).Select(u => u.FullName).FirstOrDefault() ?? "—"
+                               : _context.Organizations.Where(o => o.OrganizationId == a.OrganizationId).Select(o => o.Name).FirstOrDefault() ?? "—",
+                           RecipientType     = a.UserId != null ? "User" : "Organization",
+                           HoursPerPeriod    = a.HoursPerPeriod,
+                           PeriodType        = a.PeriodType,
+                           IsActive          = a.IsActive,
+                           CreatedAt         = a.CreatedAt,
+                           LastProcessedAt   = a.LastProcessedAt,
+                           Notes             = a.Notes
+                       }).ToList();
+
+        SpecialAssistanceUsers = (from u in _context.Users
+                                  where u.IsSpecialAssistance && !u.IsArchived && !u.IsBanned
+                                  orderby u.FullName
+                                  select new UserVm
+                                  {
+                                      UserId             = u.UserId,
+                                      FullName           = u.FullName,
+                                      Email              = u.Email,
+                                      IsActive           = u.IsActive,
+                                      IsBanned           = u.IsBanned,
+                                      IsFlagged          = u.IsFlagged,
+                                      IsSpecialAssistance = u.IsSpecialAssistance,
+                                      RoleName           = "Member"
+                                  }).ToList();
+
+        OrganizationsList = (from o in _context.Organizations
+                             orderby o.Name
+                             select new OrganizationVm
+                             {
+                                 OrganizationId = o.OrganizationId,
+                                 Name           = o.Name
+                             }).ToList();
+
         return Page();
     }
 
@@ -276,7 +328,7 @@ public class DashboardModel : PageModel
             _context.FeedbackItems.Where(f => txnIds.Contains(f.TransactionId)));
 
         _context.TimeLedgers.RemoveRange(
-            _context.TimeLedgers.Where(l => txnIds.Contains(l.TransactionId) || l.UserId == userId));
+            _context.TimeLedgers.Where(l => (l.TransactionId.HasValue && txnIds.Contains(l.TransactionId.Value)) || l.UserId == userId));
 
         _context.Messages.RemoveRange(
             _context.Messages.Where(m => (m.TransactionId.HasValue && txnIds.Contains(m.TransactionId.Value))
@@ -471,6 +523,115 @@ public class DashboardModel : PageModel
         return RedirectToPage();
     }
 
+    // ── POST: Create allocation ───────────────────────────────────────────
+    public IActionResult OnPostCreateAllocation()
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+
+        if (NewAllocationUserId == null && NewAllocationOrgId == null)
+            return RedirectToPage();
+
+        if (NewAllocationHours <= 0)
+            return RedirectToPage();
+
+        var adminId = HttpContext.Session.GetInt32("UserId")!.Value;
+
+        _context.HourAllocations.Add(new HourAllocation
+        {
+            UserId           = NewAllocationUserId,
+            OrganizationId   = NewAllocationOrgId,
+            HoursPerPeriod   = NewAllocationHours,
+            PeriodType       = NewAllocationPeriod == "Monthly" ? "Monthly" : "Weekly",
+            IsActive         = true,
+            CreatedByAdminId = adminId,
+            CreatedAt        = DateTime.UtcNow,
+            Notes            = NewAllocationNotes
+        });
+
+        _context.SaveChanges();
+        return RedirectToPage();
+    }
+
+    // ── POST: Deactivate allocation ───────────────────────────────────────
+    public IActionResult OnPostDeactivateAllocation(int allocationId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var allocation = _context.HourAllocations.Find(allocationId);
+        if (allocation != null)
+        {
+            allocation.IsActive = false;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
+    // ── POST: Reactivate allocation ───────────────────────────────────────
+    public IActionResult OnPostActivateAllocation(int allocationId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+        var allocation = _context.HourAllocations.Find(allocationId);
+        if (allocation != null)
+        {
+            allocation.IsActive = true;
+            _context.SaveChanges();
+        }
+        return RedirectToPage();
+    }
+
+    // ── POST: Process allocation immediately (manual trigger) ─────────────
+    public IActionResult OnPostProcessAllocationNow(int allocationId)
+    {
+        if (!IsAdmin()) return RedirectToPage("/Account/Login");
+
+        var allocation = _context.HourAllocations.Find(allocationId);
+        if (allocation == null || !allocation.IsActive) return RedirectToPage();
+
+        var description = string.IsNullOrWhiteSpace(allocation.Notes)
+            ? "Admin Hour Credit"
+            : allocation.Notes;
+
+        if (allocation.UserId.HasValue)
+        {
+            var user = _context.Users.Find(allocation.UserId.Value);
+            if (user != null)
+            {
+                user.CurrentBalance += allocation.HoursPerPeriod;
+                _context.TimeLedgers.Add(new Models.TimeLedger
+                {
+                    UserId      = user.UserId,
+                    Description = description,
+                    HoursChange = allocation.HoursPerPeriod,
+                    BalanceAfter = user.CurrentBalance
+                });
+            }
+        }
+        else if (allocation.OrganizationId.HasValue)
+        {
+            var createdByUserId = _context.Organizations
+                .Where(o => o.OrganizationId == allocation.OrganizationId.Value)
+                .Select(o => o.CreatedByUserId)
+                .FirstOrDefault();
+
+            var user = createdByUserId > 0 ? _context.Users.Find(createdByUserId) : null;
+            if (user != null)
+            {
+                user.CurrentBalance += allocation.HoursPerPeriod;
+                _context.TimeLedgers.Add(new Models.TimeLedger
+                {
+                    UserId       = user.UserId,
+                    Description  = description,
+                    HoursChange  = allocation.HoursPerPeriod,
+                    BalanceAfter = user.CurrentBalance
+                });
+            }
+        }
+
+        allocation.LastProcessedAt = DateTime.UtcNow;
+        _context.SaveChanges();
+
+        return RedirectToPage();
+    }
+
     // ── View models ────────────────────────────────────────────────────────
     public class UserVm
     {
@@ -552,5 +713,24 @@ public class DashboardModel : PageModel
         public string Status { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime? ConfirmedAt { get; set; }
+    }
+
+    public class AllocationVm
+    {
+        public int HourAllocationId { get; set; }
+        public string RecipientName { get; set; } = string.Empty;
+        public string RecipientType { get; set; } = string.Empty;
+        public decimal HoursPerPeriod { get; set; }
+        public string PeriodType { get; set; } = string.Empty;
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? LastProcessedAt { get; set; }
+        public string? Notes { get; set; }
+    }
+
+    public class OrganizationVm
+    {
+        public int OrganizationId { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

@@ -109,7 +109,7 @@ public class DashboardModel : PageModel
             {
                 Description = l.Transaction != null && l.Transaction.Request != null
                     ? l.Transaction.Request.Title
-                    : "",
+                    : l.Description ?? "Admin Credit",
                 HoursDelta = l.HoursChange > 0
                     ? $"+{l.HoursChange}"
                     : l.HoursChange.ToString()

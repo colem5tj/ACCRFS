@@ -110,6 +110,16 @@
                 </button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="allocations-tab" data-bs-toggle="tab"
+                        data-bs-target="#allocations-panel" type="button" role="tab">
+                    Allocations
+                    @if (Model.Allocations.Count(a => a.IsActive) > 0)
+                    {
+                        <span class="badge bg-info text-dark ms-1">@Model.Allocations.Count(a => a.IsActive)</span>
+                    }
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" href="/Admin/Profile">My Profile</a>
             </li>
         </ul>
@@ -836,7 +846,174 @@
                 </div>
             </div>
 
+            <!-- ── Tab: Allocations ────────────────────────────────────── -->
+            <div class="tab-pane fade" id="allocations-panel" role="tabpanel">
+                <div class="card-soft p-4">
+                    <h5 class="fw-bold mb-3">Hour Allocations</h5>
+                    <p class="text-muted small mb-4">
+                        Assign a recurring balance credit to special assistance members or organizations.
+                        Credits are applied automatically each week or month by the background service.
+                        Use "Credit Now" to apply immediately.
+                    </p>
+
+                    <!-- Create Allocation Form -->
+                    <div class="card border mb-4">
+                        <div class="card-header fw-semibold">New Allocation</div>
+                        <div class="card-body">
+                            <form method="post" asp-page-handler="CreateAllocation">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Recipient Type</label>
+                                        <select class="form-select" id="alloc-type-select" onchange="toggleAllocRecipient(this.value)">
+                                            <option value="user">Special Assistance User</option>
+                                            <option value="org">Organization</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4" id="alloc-user-field">
+                                        <label class="form-label">User</label>
+                                        <select class="form-select" asp-for="NewAllocationUserId">
+                                            <option value="">— select user —</option>
+                                            @foreach (var u in Model.SpecialAssistanceUsers)
+                                            {
+                                                <option value="@u.UserId">@u.FullName (@u.Email)</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 d-none" id="alloc-org-field">
+                                        <label class="form-label">Organization</label>
+                                        <select class="form-select" asp-for="NewAllocationOrgId">
+                                            <option value="">— select org —</option>
+                                            @foreach (var o in Model.OrganizationsList)
+                                            {
+                                                <option value="@o.OrganizationId">@o.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label class="form-label">Hours / Period</label>
+                                        <input type="number" step="0.5" min="0.5" class="form-control"
+                                               asp-for="NewAllocationHours" placeholder="e.g. 5" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label class="form-label">Period</label>
+                                        <select class="form-select" asp-for="NewAllocationPeriod">
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Notes (optional)</label>
+                                        <input type="text" class="form-control" asp-for="NewAllocationNotes"
+                                               placeholder="Reason or description" />
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">Create Allocation</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Allocations Table -->
+                    @if (!Model.Allocations.Any())
+                    {
+                        <p class="text-muted">No allocations configured yet.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Recipient</th>
+                                        <th>Type</th>
+                                        <th>Hours</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                        <th>Last Credited</th>
+                                        <th>Notes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Allocations)
+                                    {
+                                        <tr class="@(a.IsActive ? "" : "table-secondary text-muted")">
+                                            <td class="fw-semibold">@a.RecipientName</td>
+                                            <td>
+                                                <span class="badge @(a.RecipientType == "Organization" ? "bg-purple text-white" : "bg-info text-dark")">
+                                                    @a.RecipientType
+                                                </span>
+                                            </td>
+                                            <td>@a.HoursPerPeriod h</td>
+                                            <td>@a.PeriodType</td>
+                                            <td>
+                                                @if (a.IsActive)
+                                                {
+                                                    <span class="badge bg-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Inactive</span>
+                                                }
+                                            </td>
+                                            <td class="small text-muted">
+                                                @(a.LastProcessedAt.HasValue
+                                                    ? a.LastProcessedAt.Value.ToLocalTime().ToString("MMM d, yyyy h:mm tt")
+                                                    : "Never")
+                                            </td>
+                                            <td class="small">@(a.Notes ?? "—")</td>
+                                            <td>
+                                                <div class="d-flex gap-1 flex-wrap">
+                                                    @if (a.IsActive)
+                                                    {
+                                                        <form method="post" asp-page-handler="ProcessAllocationNow"
+                                                              asp-route-allocationId="@a.HourAllocationId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                                                Credit Now
+                                                            </button>
+                                                        </form>
+                                                        <form method="post" asp-page-handler="DeactivateAllocation"
+                                                              asp-route-allocationId="@a.HourAllocationId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                                Deactivate
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <form method="post" asp-page-handler="ActivateAllocation"
+                                                              asp-route-allocationId="@a.HourAllocationId" class="d-inline">
+                                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                                Reactivate
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+
         </div><!-- end tab-content -->
     </div><!-- end col-lg-9 -->
 </div><!-- end row -->
+
+<script>
+    function toggleAllocRecipient(val) {
+        document.getElementById('alloc-user-field').classList.toggle('d-none', val !== 'user');
+        document.getElementById('alloc-org-field').classList.toggle('d-none', val !== 'org');
+    }
+</script>
 

@@ -6,7 +6,8 @@ public class TimeLedger
 {
     public int TimeLedgerId { get; set; }
     public int UserId { get; set; }
-    public int TransactionId { get; set; }
+    public int? TransactionId { get; set; }
+    public string? Description { get; set; }
     public decimal HoursChange { get; set; }
     public decimal BalanceAfter { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

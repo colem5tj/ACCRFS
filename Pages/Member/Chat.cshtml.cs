@@ -28,7 +28,7 @@ public class ChatModel : PageModel
     {
         "fuck", "shit", "ass", "asshole", "bitch", "cunt", "dick", "piss", "cock",
         "bastard", "damn", "crap", "whore", "slut", "nigger", "nigga", "faggot",
-        "retard", "spic", "chink", "kike", "wetback", "tranny"
+        "retard", "spic", "chink", "kike", "wetback", "tranny", "hell"
     };
 
     private static bool ContainsBannedWord(string text) =>
@@ -52,6 +52,27 @@ public class ChatModel : PageModel
         if (OtherUser == null)
             return RedirectToPage("/Member/Messages");
 
+        // Only allow chat between users who share a transaction (offer exists)
+        bool isRequester = _context.Transactions.Any(t =>
+            t.ReceiverId == uid && t.ProviderId == WithUserId);
+        bool isVolunteer = _context.Transactions.Any(t =>
+            t.ProviderId == uid && t.ReceiverId == WithUserId);
+
+        if (!isRequester && !isVolunteer)
+            return RedirectToPage("/Member/Dashboard");
+
+        // Volunteers can only join a conversation the requester already started
+        if (!isRequester && isVolunteer)
+        {
+            bool conversationStarted = _context.Messages.Any(m =>
+                m.TransactionId == null &&
+                ((m.SenderId == uid && m.ReceiverId == WithUserId) ||
+                 (m.SenderId == WithUserId && m.ReceiverId == uid)));
+
+            if (!conversationStarted)
+                return RedirectToPage("/Member/Dashboard");
+        }
+
         Messages = _context.Messages
             .Where(m => m.TransactionId == null
                      && ((m.SenderId == uid   && m.ReceiverId == WithUserId)
@@ -74,6 +95,25 @@ public class ChatModel : PageModel
         var userId = HttpContext.Session.GetInt32("UserId");
         if (userId == null) return RedirectToPage("/Account/Login");
         int uid = userId.Value;
+
+        bool isRequester = _context.Transactions.Any(t =>
+            t.ReceiverId == uid && t.ProviderId == WithUserId);
+        bool isVolunteer = _context.Transactions.Any(t =>
+            t.ProviderId == uid && t.ReceiverId == WithUserId);
+
+        if (!isRequester && !isVolunteer)
+            return RedirectToPage("/Member/Dashboard");
+
+        if (!isRequester && isVolunteer)
+        {
+            bool conversationStarted = _context.Messages.Any(m =>
+                m.TransactionId == null &&
+                ((m.SenderId == uid && m.ReceiverId == WithUserId) ||
+                 (m.SenderId == WithUserId && m.ReceiverId == uid)));
+
+            if (!conversationStarted)
+                return RedirectToPage("/Member/Dashboard");
+        }
 
         if (!ModelState.IsValid)
             return OnGet();

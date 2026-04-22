@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using ACC_Demo.Data;
 using ACC_Demo.Models;
+using ACC_Demo.Services;
 using Microsoft.EntityFrameworkCore;
 using ACC_Demo;
 
@@ -22,10 +23,11 @@ builder.Services.AddHttpClient("Nominatim", client =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddLocalization();
+builder.Services.AddHostedService<AllocationBackgroundService>();
 
 var app = builder.Build();
 
-// ?? Database migration + admin seed ???????????????????????????????????????
+// ?? Database migration + admin seed 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -74,7 +76,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// ?? Localization ???????????????????????????????????????????????????????????
+// ?? Localization 
 var supportedCultures = new[] { "en", "es" };
 var localizationOptions = new RequestLocalizationOptions()
     .SetDefaultCulture("en")
