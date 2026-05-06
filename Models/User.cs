@@ -23,9 +23,7 @@ public class User
     public string? OrganizationName { get; set; }
     [StringLength(1000)]
     public string? Bio { get; set; }
-    [StringLength(1000)]
-    public string? ParticipationPlan { get; set; }
-    [StringLength(100)]
+[StringLength(100)]
     public string? AnonymousUsername { get; set; }
     public decimal CurrentBalance { get; set; } = 0;
     public bool IsActive { get; set; } = true;
@@ -33,6 +31,12 @@ public class User
     public bool IsBanned { get; set; } = false;
     public bool IsSpecialAssistance { get; set; } = false;
     public bool IsArchived { get; set; } = false;
+    public bool IsMinor { get; set; } = false;
+    public int? ParentUserId { get; set; }
+    public User? ParentUser { get; set; }
+    public ICollection<User> ChildAccounts { get; set; } = new List<User>();
+    public int? OrganizationId { get; set; }
+    public Organization? Organization { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();

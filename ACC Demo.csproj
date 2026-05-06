@@ -5,7 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>ACC_Demo</RootNamespace>
 		<AssemblyName>ACC_Demo</AssemblyName>
-	</PropertyGroup>
+	  <UserSecretsId>47d39fbb-01ba-4a06-bbb1-50df772dca95</UserSecretsId>
+  </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />

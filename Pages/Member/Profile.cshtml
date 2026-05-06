@@ -135,6 +135,25 @@
         </div>
     </form>
 
+    <!-- Linked Child Accounts -->
+    @if (Model.LinkedChildren.Any())
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Parent Account For</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach (var child in Model.LinkedChildren)
+                    {
+                        <li class="list-group-item px-0">
+                            <div class="fw-semibold">@child.FirstName @child.LastName</div>
+                            <div class="text-muted small">@child.Email</div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+
     <!-- Change Password -->
     <div class="card border-0 shadow-sm mb-4">
         <div class="card-body">

@@ -1,0 +1,64 @@
+@page
+@model ACC_Demo.Pages.Member.MessagesModel
+@using Microsoft.Extensions.Localization
+@using ACC_Demo
+@inject IStringLocalizer<SharedResources> Localizer
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<div class="row g-4">
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">@Localizer["Sidebar_Navigation"]</h5>
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Member/Dashboard"      class="list-group-item list-group-item-action">@Localizer["Sidebar_Dashboard"]</a>
+                <a asp-page="/Member/BrowseRequests" class="list-group-item list-group-item-action">@Localizer["Sidebar_BrowseRequests"]</a>
+                <a asp-page="/Member/CreateRequest"  class="list-group-item list-group-item-action">@Localizer["Sidebar_PostRequest"]</a>
+                <a asp-page="/Member/MyRequests"     class="list-group-item list-group-item-action">@Localizer["Sidebar_MyActivity"]</a>
+                <a asp-page="/Member/Ledger"         class="list-group-item list-group-item-action">@Localizer["Sidebar_TimeLedger"]</a>
+                <a asp-page="/Member/Messages"       class="list-group-item list-group-item-action active">
+                    Messages
+                    @if (Model.TotalUnread > 0)
+                    {
+                        <span class="badge bg-danger ms-1">@Model.TotalUnread</span>
+                    }
+                </a>
+                <a asp-page="/Member/Profile"        class="list-group-item list-group-item-action">@Localizer["Sidebar_Profile"]</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="card-soft p-4">
+            <h4 class="acc-page-header mb-4">Messages</h4>
+            @if (!Model.Conversations.Any())
+            {
+                <p class="text-muted">No conversations yet. Start one by messaging a member from a request page.</p>
+            }
+            else
+            {
+                <div class="list-group">
+                    @foreach (var conv in Model.Conversations)
+                    {
+                        <a asp-page="/Member/Chat"
+                           asp-route-withUserId="@conv.OtherUserId"
+                           class="list-group-item list-group-item-action @(conv.UnreadCount > 0 ? "fw-semibold" : "")">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>@conv.OtherUserName</span>
+                                <small class="text-muted">@conv.LatestAt.ToLocalTime().ToString("MMM d, h:mm tt")</small>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <small class="text-muted text-truncate" style="max-width:85%">@conv.LatestMessage</small>
+                                @if (conv.UnreadCount > 0)
+                                {
+                                    <span class="badge bg-danger ms-2">@conv.UnreadCount</span>
+                                }
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

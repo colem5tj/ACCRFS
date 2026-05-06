@@ -45,14 +45,18 @@
                             }
                         </div>
                     </div>
-                    <div>
+                    <div class="d-flex gap-2 align-items-center">
+                        <a asp-page="/Member/Chat"
+                           asp-route-withUserId="@offer.ProviderId"
+                           class="btn btn-outline-secondary btn-sm">Message</a>
+
                         @if (Model.Request?.AcceptedProviderId == null)
                         {
                             <form method="post">
                                 <input type="hidden" name="transactionId" value="@offer.TransactionId" />
                                 <input type="hidden" name="requestId" value="@Model.Request!.RequestId" />
                                 <input type="hidden" name="providerId" value="@offer.ProviderId" />
-                                <button type="submit" class="btn btn-dark">Accept This Offer</button>
+                                <button type="submit" class="btn btn-dark btn-sm">Accept This Offer</button>
                             </form>
                         }
                         else if (Model.Request.AcceptedProviderId == offer.ProviderId)

@@ -22,6 +22,7 @@ public class Request
     public string UrgencyLevel { get; set; } = "Medium"; // Low, Medium, High
 
     public bool IsEmergency { get; set; } = false;
+    public int? VolunteersNeeded { get; set; }
     public DateTime? ScheduledDate { get; set; }
 
     [StringLength(20)]

@@ -2,6 +2,7 @@ using ACC_Demo.Data;
 using ACC_Demo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.Json;
@@ -20,6 +21,7 @@ namespace ACC_Demo.Pages.Member
         }
 
         public User CurrentUser { get; set; } = default!;
+        public List<User> LinkedChildren { get; set; } = new();
         public double? LocationLat { get; set; }
         public double? LocationLng { get; set; }
 
@@ -75,6 +77,10 @@ namespace ACC_Demo.Pages.Member
             Pronouns    = CurrentUser.Pronouns;
             Occupation  = CurrentUser.Occupation;
             Bio         = CurrentUser.Bio;
+
+            LinkedChildren = _db.Users
+                .Where(u => u.ParentUserId == userId.Value)
+                .ToList();
 
             LoadLocationForDisplay(userId.Value);
             return Page();
@@ -148,6 +154,7 @@ namespace ACC_Demo.Pages.Member
 
             SuccessMessage ??= "Profile updated successfully!";
             CurrentUser = user;
+            LinkedChildren = _db.Users.Where(u => u.ParentUserId == userId.Value).ToList();
             return Page();
         }
 

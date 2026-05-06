@@ -16,6 +16,8 @@ namespace ACC_Demo.Pages.Member
         }
 
         public Transaction? Transaction { get; set; }
+        public decimal ReceiverBalance { get; set; }
+        public bool IsExempt { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int transactionId)
         {
@@ -29,10 +31,18 @@ namespace ACC_Demo.Pages.Member
                 .FirstOrDefaultAsync(t => t.TransactionId == transactionId
                     && t.ReceiverId == userId);
 
+            if (Transaction != null)
+            {
+                var receiver = await _db.Users.FindAsync(userId.Value);
+                ReceiverBalance = receiver?.CurrentBalance ?? 0;
+                IsExempt = HttpContext.Session.GetString("UserRole") == "OrganizationRep"
+                           || (receiver?.IsSpecialAssistance ?? false);
+            }
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int transactionId, int rating, string? comments)
+        public async Task<IActionResult> OnPostAsync(int transactionId, int rating, string? comments, string startTime, string endTime)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -45,6 +55,28 @@ namespace ACC_Demo.Pages.Member
 
             if (transaction == null)
                 return NotFound();
+
+            // Calculate actual hours from start/end times
+            if (TimeSpan.TryParse(startTime, out var start) && TimeSpan.TryParse(endTime, out var end))
+            {
+                if (end <= start) end = end.Add(TimeSpan.FromHours(24)); // overnight
+                var actualHours = Math.Round((decimal)(end - start).TotalHours, 2);
+
+                var receiver = await _db.Users.FindAsync(transaction.ReceiverId);
+                bool exempt = HttpContext.Session.GetString("UserRole") == "OrganizationRep"
+                              || (receiver?.IsSpecialAssistance ?? false);
+                if (!exempt)
+                {
+                    decimal maxAllowed = (receiver?.CurrentBalance ?? 0) + 3;
+                    if (actualHours > maxAllowed)
+                    {
+                        TempData["Error"] = $"The entered duration ({actualHours} hrs) would bring your balance below -3. You can approve a maximum of {maxAllowed} hrs.";
+                        return RedirectToPage(new { transactionId });
+                    }
+                }
+
+                transaction.HoursTransferred = actualHours;
+            }
 
             transaction.ConfirmedAt = DateTime.UtcNow;
 
@@ -120,7 +152,8 @@ namespace ACC_Demo.Pages.Member
             await _db.SaveChangesAsync();
 
             TempData["Success"] = $"Hours approved! {transaction.HoursTransferred} hours have been awarded.";
-            return RedirectToPage("/Member/MyRequests");
+            bool isOrg = HttpContext.Session.GetString("UserRole") == "OrganizationRep";
+            return RedirectToPage(isOrg ? "/Organization/MyActivity" : "/Member/MyRequests");
         }
     }
 }

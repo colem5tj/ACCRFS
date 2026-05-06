@@ -26,6 +26,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<UserBlock> UserBlocks => Set<UserBlock>();
     public DbSet<AdminReport> AdminReports => Set<AdminReport>();
+    public DbSet<HourAllocation> HourAllocations => Set<HourAllocation>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -109,7 +110,7 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(a => a.ReportedUserId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        // ── Message (two FKs to Users) ────────────────────────────────
+        // ── Message (two FKs to Users, optional FK to Transaction) ───
         modelBuilder.Entity<Message>()
             .HasOne(m => m.Sender)
             .WithMany()
@@ -121,6 +122,13 @@ public class ApplicationDbContext : DbContext
             .WithMany()
             .HasForeignKey(m => m.ReceiverId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Transaction)
+            .WithMany(t => t.Messages)
+            .HasForeignKey(m => m.TransactionId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
 
         // ── UserBlock (two FKs to Users) ──────────────────────────────
         modelBuilder.Entity<UserBlock>()
@@ -148,6 +156,17 @@ public class ApplicationDbContext : DbContext
             .WithMany(u => u.LedgerEntries)
             .HasForeignKey(l => l.UserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<TimeLedger>()
+            .HasOne(l => l.Transaction)
+            .WithMany()
+            .HasForeignKey(l => l.TransactionId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<TimeLedger>()
+            .Property(l => l.Description)
+            .HasMaxLength(200);
 
         // ── Feedback (FK to Users) ────────────────────────────────────
         modelBuilder.Entity<Feedback>()
@@ -209,6 +228,46 @@ public class ApplicationDbContext : DbContext
             .HasOne(r => r.AcceptedProvider)
             .WithMany()
             .HasForeignKey(r => r.AcceptedProviderId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ── Parent/Child account link (self-referencing) ──────────────
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.ChildAccounts)
+            .WithOne(u => u.ParentUser)
+            .HasForeignKey(u => u.ParentUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ── User → Organization (org account link) ────────────────────
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Organization)
+            .WithMany()
+            .HasForeignKey(u => u.OrganizationId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ── HourAllocation decimal precision ──────────────────────────
+        modelBuilder.Entity<HourAllocation>()
+            .Property(a => a.HoursPerPeriod)
+            .HasColumnType("decimal(5,2)");
+
+        // ── HourAllocation (optional FK to User) ─────────────────────
+        modelBuilder.Entity<HourAllocation>()
+            .HasOne(a => a.User)
+            .WithMany()
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ── HourAllocation (optional FK to Organization) ──────────────
+        modelBuilder.Entity<HourAllocation>()
+            .HasOne(a => a.Organization)
+            .WithMany()
+            .HasForeignKey(a => a.OrganizationId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // ── HourAllocation (FK to admin User) ────────────────────────
+        modelBuilder.Entity<HourAllocation>()
+            .HasOne(a => a.CreatedByAdmin)
+            .WithMany()
+            .HasForeignKey(a => a.CreatedByAdminId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

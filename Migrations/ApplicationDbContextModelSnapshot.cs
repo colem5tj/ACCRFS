@@ -123,6 +123,55 @@ namespace ACC_Demo.Migrations
                     b.ToTable("FeedbackItems");
                 });
 
+            modelBuilder.Entity("ACC_Demo.Models.HourAllocation", b =>
+                {
+                    b.Property<int>("HourAllocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HourAllocationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedByAdminId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("HoursPerPeriod")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastProcessedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PeriodType")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HourAllocationId");
+
+                    b.HasIndex("CreatedByAdminId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HourAllocations");
+                });
+
             modelBuilder.Entity("ACC_Demo.Models.Media", b =>
                 {
                     b.Property<int>("MediaId")
@@ -173,13 +222,16 @@ namespace ACC_Demo.Migrations
                     b.Property<bool>("IsContactAnonymized")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ReceiverId")
                         .HasColumnType("int");
 
                     b.Property<int>("SenderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int?>("TransactionId")
                         .HasColumnType("int");
 
                     b.HasKey("MessageId");
@@ -339,6 +391,9 @@ namespace ACC_Demo.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int?>("VolunteersNeeded")
+                        .HasColumnType("int");
+
                     b.HasKey("RequestId");
 
                     b.HasIndex("AcceptedProviderId");
@@ -459,10 +514,14 @@ namespace ACC_Demo.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<decimal>("HoursChange")
                         .HasColumnType("decimal(5,2)");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int?>("TransactionId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
@@ -579,6 +638,9 @@ namespace ACC_Demo.Migrations
                     b.Property<bool>("IsFlagged")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsMinor")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsSpecialAssistance")
                         .HasColumnType("bit");
 
@@ -590,13 +652,15 @@ namespace ACC_Demo.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("OrganizationName")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("ParticipationPlan")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                    b.Property<int?>("ParentUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -612,6 +676,10 @@ namespace ACC_Demo.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("ParentUserId");
 
                     b.ToTable("Users");
                 });
@@ -777,6 +845,31 @@ namespace ACC_Demo.Migrations
                     b.Navigation("Transaction");
                 });
 
+            modelBuilder.Entity("ACC_Demo.Models.HourAllocation", b =>
+                {
+                    b.HasOne("ACC_Demo.Models.User", "CreatedByAdmin")
+                        .WithMany()
+                        .HasForeignKey("CreatedByAdminId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ACC_Demo.Models.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ACC_Demo.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CreatedByAdmin");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ACC_Demo.Models.Media", b =>
                 {
                     b.HasOne("ACC_Demo.Models.User", "User")
@@ -805,8 +898,7 @@ namespace ACC_Demo.Migrations
                     b.HasOne("ACC_Demo.Models.Transaction", "Transaction")
                         .WithMany("Messages")
                         .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Receiver");
 
@@ -902,8 +994,7 @@ namespace ACC_Demo.Migrations
                     b.HasOne("ACC_Demo.Models.Transaction", "Transaction")
                         .WithMany()
                         .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ACC_Demo.Models.User", "User")
                         .WithMany("LedgerEntries")
@@ -947,6 +1038,23 @@ namespace ACC_Demo.Migrations
                     b.Navigation("Receiver");
 
                     b.Navigation("Request");
+                });
+
+            modelBuilder.Entity("ACC_Demo.Models.User", b =>
+                {
+                    b.HasOne("ACC_Demo.Models.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("ACC_Demo.Models.User", "ParentUser")
+                        .WithMany("ChildAccounts")
+                        .HasForeignKey("ParentUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("ParentUser");
                 });
 
             modelBuilder.Entity("ACC_Demo.Models.UserBlock", b =>
@@ -1051,6 +1159,8 @@ namespace ACC_Demo.Migrations
             modelBuilder.Entity("ACC_Demo.Models.User", b =>
                 {
                     b.Navigation("Availabilities");
+
+                    b.Navigation("ChildAccounts");
 
                     b.Navigation("LedgerEntries");
 

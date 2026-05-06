@@ -1,4 +1,100 @@
-﻿@page
+@page
 @model ACC_Demo.Pages.Organization.DashboardModel
 @{
+    ViewData["Title"] = "Organization Dashboard";
 }
+
+<div class="row g-4">
+    <!-- Sidebar -->
+    <div class="col-lg-3">
+        <div class="card-soft p-3 sidebar-card">
+            <h5 class="fw-bold">Navigation</h5>
+            <div class="list-group list-group-flush mt-3">
+                <a asp-page="/Organization/Dashboard" class="list-group-item list-group-item-action active">Dashboard</a>
+                <a asp-page="/Organization/PostOpportunity" class="list-group-item list-group-item-action">Post Request</a>
+                <a asp-page="/Organization/MyActivity" class="list-group-item list-group-item-action">My Activity</a>
+                <a asp-page="/Organization/Ledger" class="list-group-item list-group-item-action">Time Ledger</a>
+                <a asp-page="/Organization/Messages" class="list-group-item list-group-item-action">Messages</a>
+                <a asp-page="/Organization/Profile" class="list-group-item list-group-item-action">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-6">
+
+        <!-- Active Requests -->
+        <div class="card-soft p-4 mb-4">
+            <div class="d-flex justify-content-between mb-3">
+                <h5 class="fw-bold mb-0">Active Requests</h5>
+                <a asp-page="/Organization/MyActivity">View All</a>
+            </div>
+            @if (Model.ActiveRequests.Any())
+            {
+                @foreach (var item in Model.ActiveRequests)
+                {
+                    <div class="border rounded-4 p-3 mb-3 bg-white">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="fw-semibold">@item.Title</div>
+                                <div class="text-muted small">@item.Description</div>
+                            </div>
+                            <span class="status-pill status-open">@item.Status</span>
+                        </div>
+                        <div class="small text-muted mt-2">@item.HoursNeeded hrs • @item.UrgencyLevel priority</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted small">No active requests. <a asp-page="/Organization/PostOpportunity">Post one now.</a></p>
+            }
+        </div>
+
+        <!-- Incoming Offers -->
+        <div class="card-soft p-4 mb-4">
+            <h5 class="fw-bold mb-3">Incoming Offers</h5>
+            @if (Model.IncomingOffers.Any())
+            {
+                @foreach (var offer in Model.IncomingOffers)
+                {
+                    <div class="border rounded-4 p-3 mb-3 bg-white">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-semibold">@offer.ProviderName</div>
+                                <div class="text-muted small">offered to help with: @offer.RequestTitle</div>
+                                <div class="small text-muted mt-1">@offer.Hours hrs • @offer.OfferedAt.ToString("MMM d, yyyy")</div>
+                            </div>
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted small">No pending offers on your requests yet.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-lg-3">
+        <div class="card-soft p-3">
+            <h6 class="fw-bold">Recent Ledger</h6>
+            @if (Model.RecentLedger.Any())
+            {
+                @foreach (var entry in Model.RecentLedger)
+                {
+                    <div class="d-flex justify-content-between border-bottom py-2 small">
+                        <span>@entry.Description</span>
+                        <span>@entry.HoursDelta</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted small mb-0">No ledger entries yet.</p>
+            }
+        </div>
+    </div>
+</div>
